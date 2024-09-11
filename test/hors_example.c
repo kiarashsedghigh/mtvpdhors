@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 int main(int argc, char **argv) {
-    if (argc<5){
+    if (argc < 5) {
         debug("Usage:  ./hors T K L LPK SEED_FILE_PATH", DEBUG_ERR);
         return 1;
     }
@@ -50,8 +50,8 @@ int main(int argc, char **argv) {
 
 
 #define ITER 100000
-    for(int i=0; i<ITER;i++) {
-        u8 * message = "kiarash";
+    for (int i = 0; i < ITER; i++) {
+        u8 *message = "kiarash";
         constexpr u32 message_len = 7;
 
         printf("\rSigning Message: %d", hp.state);
@@ -68,18 +68,16 @@ int main(int argc, char **argv) {
 
 
 #ifdef TIMEKEEPING
-        signer_time+=HORS_SIGN_TIME;
-        verifier_time+=HORS_VERIFY_TIME;
+        signer_time += HORS_SIGN_TIME;
+        verifier_time += HORS_VERIFY_TIME;
 #endif
     }
 
 #ifdef TIMEKEEPING
-    printf("\nKeygen time: %0.12f\n", HORS_KEYGEN_TIME/ITER * 1000000);
-    printf("\nSign time: %0.12f\n", signer_time/ITER * 1000000);
-    printf("Verify time: %0.12f\n", verifier_time/ITER * 1000000);
+    printf("\nKeygen time: %0.12f\n", HORS_KEYGEN_TIME / ITER * 1000000);
+    printf("\nSign time: %0.12f\n", signer_time / ITER * 1000000);
+    printf("Verify time: %0.12f\n", verifier_time / ITER * 1000000);
 #endif
 
     hors_destroy_hp(&hp);
 }
-
-

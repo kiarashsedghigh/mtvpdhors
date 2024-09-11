@@ -19,25 +19,6 @@ typedef struct ohbf_hp {
     u8 *hash_family;  // Family of the functions to be used for hashing.
 }ohbf_hp_t;
 
-
-
-/// Implements the One-time Hash Bloom Filter (OHBF) hyper parameters (HP)
-/// List of hash functions supported are:
-///         ltc_sha256
-///         openssl_sha256 openssl_md5
-///         jenkins_oaat
-///         fnv64_0 fnv64_1 fnv64_1a
-///         jp_aumasson_siphash
-///         blake2b_256 blake2b_384 blake2b_512
-///         xxhash_32 xxhash_64 xxhash3_64 xxhash3_128
-///         murmur2_32 murmur2_64
-///         Wyhash
-///         Cityhash
-u32 ohbf_new_hp(ohbf_hp_t * ohbf_hp, u32 required_size, u32 num_of_mod_operations, const u8 *hash_family);
-
-
-
-
 #define OHBF_CREATE_SUCCESS 0
 #define OHBF_CREATE_FAILED 1
 
@@ -45,7 +26,6 @@ u32 ohbf_new_hp(ohbf_hp_t * ohbf_hp, u32 required_size, u32 num_of_mod_operation
 typedef struct ohbf {
     u8 *bv;                                         // The OHBF bit vector
     u32 size;                                       // Size of the OHBF
-    // u32 (*hash_function)(u8 *, const u8 *, u64);  // Pointer to the hash function
     u32 num_of_mod_operations;  // Number of modulo operations to be used
     u32 *partitions;    // Size of each partition in the OHBF
 } ohbf_t;
@@ -58,7 +38,6 @@ u32 ohbf_create(ohbf_t *ohbf, const ohbf_hp_t *ohbf_hp);
 /// Destroys the given OHBF
 /// \param ohbf Target OHBF to be destroyed
 void ohbf_destroy(const ohbf_t *ohbf);
-
 
 #define OHBF_ELEMENT_EXISTS 0
 #define OHBF_ELEMENT_ABSENTS 1
@@ -75,7 +54,6 @@ void ohbf_insert(const ohbf_t *ohbf, const u8 *input, u64 length);
 /// \param length The length of the input
 /// \return Returns OHBF_ELEMENT_EXISTS , OHBF_ELEMENT_ABSENTS
 u32 ohbf_check(const ohbf_t *ohbf, const u8 *input, u64 length);
-
 
 
 #endif

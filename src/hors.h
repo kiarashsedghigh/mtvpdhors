@@ -39,13 +39,13 @@ double hors_get_verify_time();
 
 /// Implements the hyper parameters of HORS
 typedef struct hors_hp {
-    u32 k; // k parameter of the HORS signature
-    u32 t; // t parameter of the HORS signature
-    u32 l; // l parameter of the HORS signature
-    u32 lpk; // Size of the public key portion
-    u8 *seed;
-    u32 seed_len;
-    u32 state;
+    u32 k; /* k parameter of the HORS signature */
+    u32 t; /* t parameter of the HORS signature */
+    u32 l; /* l parameter of the HORS signature */
+    u32 lpk; /* Size of the public key portion */
+    u8 *seed; /* Pointer to the seed */
+    u32 seed_len; /* Length of the seed in bytes */
+    u32 state; /* State number*/
 } hors_hp_t;
 
 /// Implements the HORS keys
@@ -76,13 +76,6 @@ u32 hors_new_hp(hors_hp_t *new_hp, const u8 *config_file);
 /// HORS destroys the internal hyper parameter elements
 /// \param hp Pointer to the hyper parameter
 void hors_destroy_hp(hors_hp_t *hp);
-
-
-/// HORS key generation
-/// \param keys Pointer to the HORS keys
-/// \param hp Pointer to the HORS HP
-/// \return HORS_KEYGEN_SUCCESS, HORS_KEYGEN_FAILED
-u32 hors_keygen(hors_keys_t *keys, hors_hp_t *hp);
 
 /// HORS destroys the internal key elements
 /// \param keys Pointer to the keys

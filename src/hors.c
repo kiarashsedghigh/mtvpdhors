@@ -3,8 +3,7 @@
 #include "hors.h"
 #include <sys/time.h>
 #include <math.h>
-#include <pthread.h>
-#include <stdio.h>
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -24,7 +23,7 @@ double hors_get_verify_time() { return hors_verify_time; }
 #endif
 
 
-u32 hors_pk_keygen(hors_keys_t *keys, hors_hp_t *hp) {
+static u32 hors_pk_keygen(hors_keys_t *keys, hors_hp_t *hp) {
     /* Generate the PK */
     keys->pk = malloc(BITS_2_BYTES(hp->lpk) * hp->t);
 
@@ -41,19 +40,16 @@ u32 hors_pk_keygen(hors_keys_t *keys, hors_hp_t *hp) {
         memcpy(new_seed, hp->seed, hp->seed_len);
         memcpy(new_seed + hp->seed_len, &hp->state, 4);
         memcpy(new_seed + hp->seed_len + 4, &i, 4);
-        const int hash_len = blake2s_128(sk, new_seed, hp->seed_len + 4 + 4);
-        blake2s_128(sk, sk, hp->l/8);
-
+        blake2s_128(sk, new_seed, hp->seed_len + 4 + 4); // s_i = f(msk || state || i)
+        blake2s_128(sk, sk, hp->l/8);   // pk_i = f(si)
 
         memcpy(keys->pk + i * BITS_2_BYTES(hp->lpk), sk, BITS_2_BYTES(hp->lpk));
     }
-
 
 #ifdef TIMEKEEPING
     gettimeofday(&end_time, NULL);
     hors_keygen_time += (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
 #endif
-
     free(new_seed);
     return HORS_KEYGEN_SUCCESS;
 }
@@ -61,7 +57,6 @@ u32 hors_pk_keygen(hors_keys_t *keys, hors_hp_t *hp) {
 void hors_destroy_keys(hors_keys_t *keys) {
     free(keys->pk);
 }
-
 
 // static int check_if_indices_are_distinct(const unsigned char *value, int k, int chunk, int *message_indices,
 //                                          int **sorted_indices) {
@@ -180,11 +175,6 @@ void hors_destroy_keys(hors_keys_t *keys) {
 // }
 //
 
-
-/// Passing the HORS hyper parameters and the keys it creates a HORS signer
-/// \param hp HORS hyper parameter
-/// \param keys HORS keys
-/// \return HORS signer
 u32 hors_new_signer(hors_signer_t *signer, hors_hp_t *hp, hors_keys_t *keys) {
     /* State has not been set as this is a one-time HORS */
     signer->keys = keys;
@@ -196,9 +186,6 @@ u32 hors_new_signer(hors_signer_t *signer, hors_hp_t *hp, hors_keys_t *keys) {
 u32 hors_sign(const hors_signature_t *signature, hors_signer_t *signer, u8 *message, u64 message_len) {
     u8 message_hash[HASH_MAX_LENGTH_THRESHOLD];
 
-#ifdef TIMEKEEPING
-    gettimeofday(&start_time, NULL);
-#endif
     // /* Perform rejection sampling */
     // if (signer->hp->do_rejection_sampling) {
     //     if (rejection_sampling(signer->hp->k, signer->hp->t,
@@ -211,18 +198,19 @@ u32 hors_sign(const hors_signature_t *signature, hors_signer_t *signer, u8 *mess
     /* Hashing the message without rejection sampling */
     openssl_hash_sha2_256(message_hash, message, message_len);
 
+#ifdef TIMEKEEPING
+    gettimeofday(&start_time, NULL);
+#endif
+
     /* HORS log(t), defining size of the bit slices */
     u32 bit_slice_len = log2(signer->hp->t);
 
     unsigned char *new_seed = malloc(signer->hp->seed_len  + 4 + 4);
 
-
     /* Extract the portions from the private key and write to the signature */
     for (u32 i = 0; i < signer->hp->k; i++) {
         u32 portion_value = read_bits_as_4bytes(message_hash, i + 1, bit_slice_len);
-
         u8 sk[HASH_MAX_LENGTH_THRESHOLD];
-
         memcpy(new_seed, signer->hp->seed, signer->hp->seed_len);
         memcpy(new_seed + signer->hp->seed_len, &signer->hp->state, 4);
         memcpy(new_seed + signer->hp->seed_len + 4, &portion_value, 4);
@@ -242,9 +230,6 @@ u32 hors_sign(const hors_signature_t *signature, hors_signer_t *signer, u8 *mess
 
 u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 message_len) {
     u8 message_hash[HASH_MAX_LENGTH_THRESHOLD];
-
-
-
     // /* Perform rejection sampling */
     // if (hp->do_rejection_sampling) {
     //     if (rejection_sampling_status(hp->k, hp->t,
@@ -259,10 +244,8 @@ u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 mes
 #ifdef TIMEKEEPING
     gettimeofday(&start_time, NULL);
 #endif
-
     hors_keys_t keys;
     hors_pk_keygen(&keys, hp);
-
 
     /* HORS log(t), defining size of the bit slices */
     u32 bit_slice_len = log2(hp->t);
@@ -277,7 +260,6 @@ u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 mes
         u8 sk_hash[HASH_MAX_LENGTH_THRESHOLD];
 
         blake2s_128(sk_hash, current_signature_portion, BITS_2_BYTES(hp->l));
-
 
         /* Compare the hashed current signature element (sk) with public key indexed
          * by portion_value */

@@ -21,7 +21,7 @@ To build the binary:
 ```
 mkdir build
 cd buid
-cmake -S .. -B . -DCMAKE_C_FLAGS="-O3 -w"
+cmake --target mtvpdhors -S .. -B . -DCMAKE_C_FLAGS="-O3 -w" 
 make
 ```
 Add `-DTIMEKEEPING` to get timing report.
@@ -29,23 +29,23 @@ Add `-DTIMEKEEPING` to get timing report.
 # Running
 To run the program:
 ```
-$ ./mtvpdhors T K L LPK SEED_FILE 
+$ ./mtvpdhors T K L LPK P M SEED_FILE 
 ```
 where `T`, `K`, `L` are HORS parameters, `LPK` denotes the output size of the
-one-way function, and `SEED_FILE` is the path to the seed file. Create a
+one-way function, `P` is the number of partitions, `M` is OHBF size in bits, and `SEED_FILE` is the path to the seed file. Create a
 seed file manually if no exists.
 
 # Example
 ## Build
 ```
-cmake -S .. -B . -DCMAKE_C_FLAGS="-O3 -w -DTIMEKEEPING"
+cmake --target mtvpdhors -S .. -B . -DCMAKE_C_FLAGS="-O3 -w -DTIMEKEEPING"
 make
 ```
 
 ## Run
 We can set parameters
-as `t=1024`, `k=25`, `l=256`, `r=25601`, `rt=11`, `tests=1048576`:
+as `t=64`, `k=16`, `l=32`, `lpk=128`, `p=8`, `m=7954`:
 ```
-$ ./mtvpdhors 256 32 256 256 ./seed_file
+$ ./mtvpdhors 64 16 32 128 8 7954 ./seedfile
 ```
 

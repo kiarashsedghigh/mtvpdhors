@@ -1,7 +1,6 @@
 #ifndef BFTVMHORS_BFTVMHORS_H
 #define BFTVMHORS_BFTVMHORS_H
 
-#include "bf.h"
 #include "ohbf.h"
 #include "types.h"
 
@@ -42,35 +41,20 @@ double bftvmhors_get_verify_time();
 
 /// Implements the hyper parameters of BFTVMHORS
 typedef struct bftvmhors_hp {
-  u32 N;                     // Number of messages to be signed
-  u32 k;                     // k parameter of the HORS signature
-  u32 t;                     // t parameter of the HORS signature
-  u32 l;                     // l parameter of the HORS signature
-  u32 lpk;                    // Size of the public key portion
-  u8 *seed;
-  u32 seed_len;
-  u32 state;
-
-  u8 *seed_file;             // Seed file
-  u32 sk_seed_len;           // Length of private key seeds in bits
-#ifdef OHBF
-    ohbf_hp_t ohbf_hp;           // Hyper parameters of the underlying Standard Bloom Filter (OHBF)
-#else
-    sbf_hp_t sbf_hp;           // Hyper parameters of the underlying Standard Bloom Filter (SBF)
-#endif
-  u8 do_rejection_sampling;  // Do/Don't perform rejection sampling
+  u32 N;                     /* Number of messages to be signed */
+  u32 k;                     /* k parameter of the HORS signature */
+  u32 t;                     /* t parameter of the HORS signature */
+  u32 l;                     /* l parameter of the HORS signature */
+  u32 lpk;                    /* Size of the public key portion */
+  u32 state; /* State number*/
+  ohbf_hp_t ohbf_hp;           /* Hyper parameters of the underlying Standard Bloom Filter (OHBF) */
 } bftvmhors_hp_t;
 
 /// Implements the BFTVMHORS keys
 typedef struct bftvmhors_keys {
-  u8 *seed;
-  u8 *sk_seeds;
-#ifdef OHBF
-  ohbf_t pk;
-#else
-  sbf_t pk;
-#endif
-  u32 num_of_keys;
+  u8 *seed; /* Pointer to the seed */
+  u32 seed_len; /* Length of the seed in bytes */
+  ohbf_t pk; /* OHBF Public key */
 } bftvmhors_keys_t;
 
 /// Implements the BFTVMHORS signature
@@ -86,12 +70,6 @@ typedef struct bftvmhors_signer {
   bftvmhors_hp_t *hp;
 } bftvmhors_signer_t;
 
-/// Implements the BFTVMHORS verifier
-typedef struct bftvmhors_verifier {
-  u32 state;
-  sbf_t *pk;
-} bftvmhors_verifier_t;
-
 /// Creates hyper parameters for the BFTVMHORS
 /// \param new_hp Pointer to the hyper parameter variable
 /// \param config_file Name/Path of the config_sample file
@@ -105,13 +83,6 @@ void bftvmhors_destroy_hp(bftvmhors_hp_t* hp);
 /// Destroys the keys struct
 /// \param keys Pointer to the keys struct
 void bftvmhors_destroy_keys(bftvmhors_keys_t* keys);
-
-/// Generates the BFTVMHORS keys
-/// \param keys Pointer to the BFTVMHORS key struct
-/// \param hp Pointer to the BFTVMHORS hyper parameter struct
-/// \return 0 if successful, 1 otherwise
-u32 bftvmhors_keygen(bftvmhors_keys_t *keys, bftvmhors_hp_t *hp);
-
 
 /// Passing the BFTVMHORS hyper parameters and the keys it creates a BFTVMHORS signer
 /// \param signer Pointer to the signer struct
@@ -130,19 +101,13 @@ u32 bftvmhors_sign(bftvmhors_signature_t* signature, bftvmhors_signer_t* signer,
                    u64 message_len);
 
 
-/// Passing the BFTVMHORS public key (sbf_t type), returns a BFTVMHORS verifier
-/// \param pk BFTVMHORS public key which is a SBF
-/// \return BFTVMHORS_NEW_VERIFIER_SUCCESS, BFTVMHORS_NEW_VERIFIER_FAILED
-u32 bftvmhors_new_verifier(bftvmhors_verifier_t * verifier, sbf_t* pk);
-
 /// BFTVMHORS verifier
-/// \param verifier Pointer to the BFTVMHORS verifier struct
 /// \param hp Pointer to the BFTVMHORS hyper parameter struct
 /// \param signature Pointer to the BFTVMHORS signature struct
 /// \param message  Pointer to the message to check signature on
 /// \param message_len Length of the input message
 /// \return BFTVMHORS_SIGNATURE_VERIFIED and BFTVMHORS_SIGNATURE_REJECTED
-u32 bftvmhors_verify(bftvmhors_hp_t* hp,
+u32 bftvmhors_verify(bftvmhors_keys_t* keys, bftvmhors_hp_t* hp,
                      bftvmhors_signature_t * signature, u8* message, u64 message_len);
 
 #endif

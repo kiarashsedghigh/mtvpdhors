@@ -13,9 +13,7 @@ link_libraries(tomcrypt m ssl crypto xxhash)
 
 
 set(COMMON_SRCS
-        src/bf.c src/bf.h
         src/hash.h
-        src/mht.c src/mht.h
 
         src/prng.h
         src/tv_params.h

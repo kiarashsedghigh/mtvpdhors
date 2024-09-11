@@ -1,4 +1,3 @@
-#include "bf.h"
 #include "bftvmhors.h"
 #include "bits.h"
 #include "hash.h"
@@ -25,7 +24,7 @@ double bftvmhors_get_verify_time() { return bftvmhors_verify_time; }
 u32 bftvmhors_pk_keygen(bftvmhors_keys_t* keys, bftvmhors_hp_t* hp) {
 
     ohbf_create(&keys->pk, &hp->ohbf_hp);
-    unsigned char *new_seed = malloc(hp->seed_len + 4 + 4);
+    unsigned char *new_seed = malloc(keys->seed_len + 4 + 4);
 
 #ifdef TIMEKEEPING
     gettimeofday(&start_time, NULL);
@@ -34,17 +33,15 @@ u32 bftvmhors_pk_keygen(bftvmhors_keys_t* keys, bftvmhors_hp_t* hp) {
     /* Compute OWF of privates as public key */
     for (u32 i = 0; i < hp->t; i++) {
         u8 sk[HASH_MAX_LENGTH_THRESHOLD];
-        memcpy(new_seed, hp->seed, hp->seed_len);
-        memcpy(new_seed + hp->seed_len, &hp->state, 4);
-        memcpy(new_seed + hp->seed_len + 4, &i, 4);
+        memcpy(new_seed, keys->seed, keys->seed_len);
+        memcpy(new_seed + keys->seed_len, &hp->state, 4);
+        memcpy(new_seed + keys->seed_len + 4, &i, 4);
 
-        blake2s_128(sk, new_seed, hp->seed_len + 4 + 4);
+        blake2s_128(sk, new_seed, keys->seed_len + 4 + 4); // s_i = f(msk || state || i)
+
         memcpy(sk + hp->l/8, &i, 4); // sk || i //todo size
-
-        ohbf_insert(&keys->pk, sk, hp->l/8 + 4); // pk
+        ohbf_insert(&keys->pk, sk, hp->l/8 + 4); // pk_i = ohbf.insert(s_i)
     }
-
-
 #ifdef TIMEKEEPING
     gettimeofday(&end_time, NULL);
     bftvmhors_keygen_time += (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
@@ -53,8 +50,6 @@ u32 bftvmhors_pk_keygen(bftvmhors_keys_t* keys, bftvmhors_hp_t* hp) {
     free(new_seed);
     return BFTVMHORS_KEYGEN_SUCCESS;
 }
-
-
 
 
 // static int check_if_indices_are_distinct(const unsigned char *value, int k, int chunk, int *message_indices,
@@ -182,12 +177,8 @@ u32 bftvmhors_new_signer(bftvmhors_signer_t * signer, bftvmhors_hp_t* hp, bftvmh
 }
 
 u32 bftvmhors_sign(bftvmhors_signature_t* signature, bftvmhors_signer_t* signer, u8* message, u64 message_len) {
-
     u8 message_hash[HASH_MAX_LENGTH_THRESHOLD];
 
-#ifdef TIMEKEEPING
-    gettimeofday(&start_time, NULL);
-#endif
     // /* Perform rejection sampling */
     // if (signer->hp->do_rejection_sampling) {
     //     if (rejection_sampling(signer->hp->k, signer->hp->t,
@@ -200,11 +191,13 @@ u32 bftvmhors_sign(bftvmhors_signature_t* signature, bftvmhors_signer_t* signer,
     /* Hashing the message without rejection sampling */
     openssl_hash_sha2_256(message_hash, message, message_len);
 
+#ifdef TIMEKEEPING
+    gettimeofday(&start_time, NULL);
+#endif
     /* HORS log(t), defining size of the bit slices */
     u32 bit_slice_len = log2(signer->hp->t);
 
     unsigned char *new_seed = malloc(signer->hp->l + 4 + 4);
-
 
     /* Extract the portions from the private key and write to the signature */
     for (u32 i = 0; i < signer->hp->k; i++) {
@@ -212,10 +205,10 @@ u32 bftvmhors_sign(bftvmhors_signature_t* signature, bftvmhors_signer_t* signer,
 
         u8 sk[HASH_MAX_LENGTH_THRESHOLD];
 
-        memcpy(new_seed, signer->hp->seed, signer->hp->seed_len);
-        memcpy(new_seed + signer->hp->seed_len, &signer->hp->state, 4);
-        memcpy(new_seed + signer->hp->seed_len + 4, &portion_value, 4);
-        blake2s_128(sk, new_seed, signer->hp->seed_len + 4 + 4);
+        memcpy(new_seed, signer->keys->seed, signer->keys->seed_len);
+        memcpy(new_seed + signer->keys->seed_len, &signer->hp->state, 4);
+        memcpy(new_seed + signer->keys->seed_len + 4, &portion_value, 4);
+        blake2s_128(sk, new_seed, signer->keys->seed_len + 4 + 4); // s_i = f(msk || state || i)
         memcpy(&signature->signature[i * BITS_2_BYTES(signer->hp->l)], sk, BITS_2_BYTES(signer->hp->l));
     }
 
@@ -228,18 +221,10 @@ u32 bftvmhors_sign(bftvmhors_signature_t* signature, bftvmhors_signer_t* signer,
     return BFTVMHORS_SIGNING_SUCCESS;
 }
 
-u32 bftvmhors_new_verifier(bftvmhors_verifier_t * verifier, sbf_t* pk) {
-    verifier->state = 0;
-    verifier->pk = pk;
-    return BFTVMHORS_NEW_VERIFIER_SUCCESS;
-}
 
-u32 bftvmhors_verify(bftvmhors_hp_t* hp,
+u32 bftvmhors_verify(bftvmhors_keys_t* keys, bftvmhors_hp_t* hp,
                      bftvmhors_signature_t * signature, u8* message, u64 message_len) {
     u8 message_hash[HASH_MAX_LENGTH_THRESHOLD];
-
-
-
     // /* Perform rejection sampling */
     // if (hp->do_rejection_sampling) {
     //     if (rejection_sampling_status(hp->k, hp->t,
@@ -255,10 +240,8 @@ u32 bftvmhors_verify(bftvmhors_hp_t* hp,
 #ifdef TIMEKEEPING
     gettimeofday(&start_time, NULL);
 #endif
-    bftvmhors_keys_t keys;
-    bftvmhors_pk_keygen(&keys, hp);
-
-
+    /* Generate the public key */
+    bftvmhors_pk_keygen(keys, hp);
 
     /* HORS log(t), defining size of the bit slices */
     u32 bit_slice_len = log2(hp->t);
@@ -277,38 +260,19 @@ u32 bftvmhors_verify(bftvmhors_hp_t* hp,
 
         /* Compare the hashed current signature element (sk) with public key indexed
          * by portion_value */
-        if (ohbf_check(&keys.pk, sk_index, BITS_2_BYTES(hp->l) + 4) == OHBF_ELEMENT_ABSENTS) {
+        if (ohbf_check(&keys->pk, sk_index, BITS_2_BYTES(hp->l) + 4) == OHBF_ELEMENT_ABSENTS) {
 #ifdef TIMEKEEPING
             gettimeofday(&end_time, NULL);
             bftvmhors_verify_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
 #endif
-            ohbf_destroy(&keys.pk);
+            ohbf_destroy(&keys->pk);
             return BFTVMHORS_SIGNATURE_REJECTED;
         }
     }
-
 #ifdef TIMEKEEPING
     gettimeofday(&end_time, NULL);
     bftvmhors_verify_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
 #endif
-    ohbf_destroy(&keys.pk);
-    return BFTVMHORS_SIGNATURE_ACCEPTED;
-}
-
-
-
-
-void bftvmhors_destroy_hp(bftvmhors_hp_t* hp) {
-    free(hp->seed);
-}
-
-void bftvmhors_destroy_keys(bftvmhors_keys_t* keys) {
-    free(keys->seed);
-    free(keys->sk_seeds);
-
-#ifdef OHBF
     ohbf_destroy(&keys->pk);
-#else
-    sbf_destroy(&keys->pk);
-#endif
+    return BFTVMHORS_SIGNATURE_ACCEPTED;
 }
