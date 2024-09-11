@@ -47,6 +47,10 @@ typedef struct bftvmhors_hp {
   u32 t;                     // t parameter of the HORS signature
   u32 l;                     // l parameter of the HORS signature
   u32 lpk;                    // Size of the public key portion
+  u8 *seed;
+  u32 seed_len;
+  u32 state;
+
   u8 *seed_file;             // Seed file
   u32 sk_seed_len;           // Length of private key seeds in bits
 #ifdef OHBF
@@ -71,7 +75,7 @@ typedef struct bftvmhors_keys {
 
 /// Implements the BFTVMHORS signature
 typedef struct bftvmhors_signature {
-  const u8 *signature;
+  u8 *signature;
   u32 rejection_sampling_counter;
 } bftvmhors_signature_t;
 
@@ -138,7 +142,7 @@ u32 bftvmhors_new_verifier(bftvmhors_verifier_t * verifier, sbf_t* pk);
 /// \param message  Pointer to the message to check signature on
 /// \param message_len Length of the input message
 /// \return BFTVMHORS_SIGNATURE_VERIFIED and BFTVMHORS_SIGNATURE_REJECTED
-u32 bftvmhors_verify(bftvmhors_verifier_t* verifier, bftvmhors_hp_t* hp,
+u32 bftvmhors_verify(bftvmhors_hp_t* hp,
                      bftvmhors_signature_t * signature, u8* message, u64 message_len);
 
 #endif

@@ -45,7 +45,7 @@ u32 ohbf_new_hp(ohbf_hp_t * ohbf_hp, u32 required_size, u32 num_of_mod_operation
 typedef struct ohbf {
     u8 *bv;                                         // The OHBF bit vector
     u32 size;                                       // Size of the OHBF
-    u32 (*hash_function)(u8 *, const u8 *, u64);  // Pointer to the hash function
+    // u32 (*hash_function)(u8 *, const u8 *, u64);  // Pointer to the hash function
     u32 num_of_mod_operations;  // Number of modulo operations to be used
     u32 *partitions;    // Size of each partition in the OHBF
 } ohbf_t;

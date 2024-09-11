@@ -1505,27 +1505,27 @@ XXH_PUBLIC_API XXH_errorcode XXH3_128bits_reset_withSeed(XXH_NOESCAPE XXH3_state
  */
 XXH_PUBLIC_API XXH_errorcode XXH3_128bits_reset_withSecret(XXH_NOESCAPE XXH3_state_t* statePtr, XXH_NOESCAPE const void* secret, size_t secretSize);
 
-/*!
- * @brief Consumes a block of @p input to an @ref XXH3_state_t.
- *
- * Call this to incrementally consume blocks of data.
- *
- * @param statePtr The state struct to update.
- * @param input The block of data to be hashed, at least @p length bytes in size.
- * @param length The length of @p input, in bytes.
- *
- * @pre
- *   @p statePtr must not be `NULL`.
- *
- * @return @ref XXH_OK on success.
- * @return @ref XXH_ERROR on failure.
- *
- * @note
- *   The memory between @p input and @p input + @p length must be valid,
- *   readable, contiguous memory. However, if @p length is `0`, @p input may be
- *   `NULL`. In C++, this also must be *TriviallyCopyable*.
- *
- */
+// /*!
+//  * @brief Consumes a block of @p input to an @ref XXH3_state_t.
+//  *
+//  * Call this to incrementally consume blocks of data.
+//  *
+//  * @param statePtr The state struct to update.
+//  * @param input The block of data to be hashed, at least @p length bytes in size.
+//  * @param length The length of @p input, in bytes.
+//  *
+//  * @pre
+//  *   @p statePtr must not be `NULL`.
+//  *
+//  * @return @ref XXH_OK on success.
+//  * @return @ref XXH_ERROR on failure.
+//  *
+//  * @note
+//  *   The memory between @p input and @p input + @p length must be valid,
+//  *   readable, contiguous memory. However, if @p length is `0`, @p input may be
+//  *   `NULL`. In C++, this also must be *TriviallyCopyable*.
+//  *
+//  */
 XXH_PUBLIC_API XXH_errorcode XXH3_128bits_update (XXH_NOESCAPE XXH3_state_t* statePtr, XXH_NOESCAPE const void* input, size_t length);
 
 /*!

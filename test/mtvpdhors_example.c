@@ -1,4 +1,4 @@
-#include "hors.h"
+#include "bftvmhors.h"
 #include "bits.h"
 #include "debug.h"
 #include <stdlib.h>
@@ -12,8 +12,8 @@ int main(int argc, char **argv) {
     }
 
     /* Hyper parameters and keys */
-    hors_hp_t hp;
-    hors_keys_t keys;
+    bftvmhors_hp_t hp;
+    bftvmhors_keys_t keys;
 
     FILE *fp = fopen(argv[5], "r");
     fseek(fp, 0L, SEEK_END);
@@ -31,16 +31,18 @@ int main(int argc, char **argv) {
     hp.lpk = atoi(argv[4]);
 
 
+    hp.ohbf_hp.num_of_mod_operations = 8;
+    hp.ohbf_hp.required_size = 7954;
+
+
     /* Signer */
     debug("New signer is created", DEBUG_INF);
 
 
-    hors_signer_t signer;
-    hors_new_signer(&signer, &hp, &keys);
-    hors_signature_t signature;
+    bftvmhors_signer_t signer;
+    bftvmhors_new_signer(&signer, &hp, &keys);
+    bftvmhors_signature_t signature;
     signature.signature = malloc(signer.hp->k * BITS_2_BYTES(signer.hp->lpk));
-
-    /* Reading the message */
 
 
     /* Verifier */
@@ -57,9 +59,10 @@ int main(int argc, char **argv) {
         printf("\rSigning Message: %d", hp.state);
         fflush(stdout);
 
-        hors_sign(&signature, &signer, message, message_len);
+        bftvmhors_sign(&signature, &signer, message, message_len);
 
-        if (hors_verify(&hp, &signature, message, message_len) != HORS_SIGNATURE_ACCEPTED) {
+
+        if (bftvmhors_verify(&hp, &signature, message, message_len) != BFTVMHORS_SIGNATURE_ACCEPTED) {
             debug("\nVerification: Signature is (not) valid", DEBUG_INF);
             break;
         }
@@ -68,18 +71,17 @@ int main(int argc, char **argv) {
 
 
 #ifdef TIMEKEEPING
-        signer_time+=HORS_SIGN_TIME;
-        verifier_time+=HORS_VERIFY_TIME;
+        signer_time+=BFTVMHORS_SIGN_TIME;
+        verifier_time+=BFTVMHORS_VERIFY_TIME;
 #endif
     }
 
 #ifdef TIMEKEEPING
-    printf("\nKeygen time: %0.12f\n", HORS_KEYGEN_TIME/ITER * 1000000);
+    printf("\nKeygen time: %0.12f\n", BFTVMHORS_KEYGEN_TIME/ITER * 1000000);
     printf("\nSign time: %0.12f\n", signer_time/ITER * 1000000);
     printf("Verify time: %0.12f\n", verifier_time/ITER * 1000000);
 #endif
 
-    hors_destroy_hp(&hp);
 }
 
 

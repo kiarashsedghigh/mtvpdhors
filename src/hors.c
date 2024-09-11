@@ -4,6 +4,7 @@
 #include <sys/time.h>
 #include <math.h>
 #include <pthread.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -21,14 +22,6 @@ double hors_get_keygen_time() { return hors_keygen_time; }
 double hors_get_sign_time() { return hors_sign_time; }
 double hors_get_verify_time() { return hors_verify_time; }
 #endif
-
-/// Struct for the parameters needed to be passed to the running thread of the keygen
-typedef struct hors_keygen_thread_argument {
-    hors_keys_t *keys; // Keys
-    hors_hp_t *hp; // Hyper parameters
-    u32 private_key_start; // Index of the first private key
-    u32 private_key_end; // Index of the last private key
-} hors_keygen_thread_argument_t;
 
 
 u32 hors_pk_keygen(hors_keys_t *keys, hors_hp_t *hp) {
@@ -48,15 +41,17 @@ u32 hors_pk_keygen(hors_keys_t *keys, hors_hp_t *hp) {
         memcpy(new_seed, hp->seed, hp->seed_len);
         memcpy(new_seed + hp->seed_len, &hp->state, 4);
         memcpy(new_seed + hp->seed_len + 4, &i, 4);
-        blake2b_256(sk, new_seed, hp->seed_len + 4 + 4);
-        blake2b_256(sk, sk, 32);
+        const int hash_len = blake2s_128(sk, new_seed, hp->seed_len + 4 + 4);
+        blake2s_128(sk, sk, hp->l/8);
+
 
         memcpy(keys->pk + i * BITS_2_BYTES(hp->lpk), sk, BITS_2_BYTES(hp->lpk));
     }
 
+
 #ifdef TIMEKEEPING
     gettimeofday(&end_time, NULL);
-    hors_keygen_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
+    hors_keygen_time += (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
 #endif
 
     free(new_seed);
@@ -219,7 +214,7 @@ u32 hors_sign(const hors_signature_t *signature, hors_signer_t *signer, u8 *mess
     /* HORS log(t), defining size of the bit slices */
     u32 bit_slice_len = log2(signer->hp->t);
 
-    unsigned char *new_seed = malloc(signer->hp->l + 4 + 4);
+    unsigned char *new_seed = malloc(signer->hp->seed_len  + 4 + 4);
 
 
     /* Extract the portions from the private key and write to the signature */
@@ -231,7 +226,7 @@ u32 hors_sign(const hors_signature_t *signature, hors_signer_t *signer, u8 *mess
         memcpy(new_seed, signer->hp->seed, signer->hp->seed_len);
         memcpy(new_seed + signer->hp->seed_len, &signer->hp->state, 4);
         memcpy(new_seed + signer->hp->seed_len + 4, &portion_value, 4);
-        blake2b_256(sk, new_seed, signer->hp->seed_len + 4 + 4);
+        blake2s_128(sk, new_seed, signer->hp->seed_len + 4 + 4);
         memcpy(&signature->signature[i * BITS_2_BYTES(signer->hp->l)], sk, BITS_2_BYTES(signer->hp->l));
     }
 
@@ -248,12 +243,8 @@ u32 hors_sign(const hors_signature_t *signature, hors_signer_t *signer, u8 *mess
 u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 message_len) {
     u8 message_hash[HASH_MAX_LENGTH_THRESHOLD];
 
-    hors_keys_t keys;
-    hors_pk_keygen(&keys, hp);
 
-#ifdef TIMEKEEPING
-    gettimeofday(&start_time, NULL);
-#endif
+
     // /* Perform rejection sampling */
     // if (hp->do_rejection_sampling) {
     //     if (rejection_sampling_status(hp->k, hp->t,
@@ -264,6 +255,14 @@ u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 mes
 
     /* Hashing the message without rejection sampling */
     openssl_hash_sha2_256(message_hash, message, message_len);
+
+#ifdef TIMEKEEPING
+    gettimeofday(&start_time, NULL);
+#endif
+
+    hors_keys_t keys;
+    hors_pk_keygen(&keys, hp);
+
 
     /* HORS log(t), defining size of the bit slices */
     u32 bit_slice_len = log2(hp->t);
@@ -277,7 +276,8 @@ u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 mes
         /* Hash the current signature element (sk) for further comparison */
         u8 sk_hash[HASH_MAX_LENGTH_THRESHOLD];
 
-        blake2b_256(sk_hash, current_signature_portion, BITS_2_BYTES(hp->l));
+        blake2s_128(sk_hash, current_signature_portion, BITS_2_BYTES(hp->l));
+
 
         /* Compare the hashed current signature element (sk) with public key indexed
          * by portion_value */
@@ -286,7 +286,6 @@ u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 mes
             gettimeofday(&end_time, NULL);
             hors_verify_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
 #endif
-            hp->state++;
             return HORS_SIGNATURE_REJECTED;
         }
     }
@@ -296,7 +295,6 @@ u32 hors_verify(hors_hp_t *hp, hors_signature_t *signature, u8 *message, u64 mes
     hors_verify_time = (end_time.tv_sec - start_time.tv_sec) + (end_time.tv_usec - start_time.tv_usec) / 1.0e6;
 #endif
     hors_destroy_keys(&keys);
-    hp->state++;
     return HORS_SIGNATURE_ACCEPTED;
 }
 
