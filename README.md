@@ -13,6 +13,8 @@ Before you begin, ensure you have met the following requirements:
 
 
 # Dependencies
+
+## xxHash3
 We use xxHash3 for our bloom filter. Build it as follows:
 ```
 git clone https://github.com/Microsoft/vcpkg.git
