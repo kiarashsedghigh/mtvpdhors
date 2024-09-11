@@ -12,6 +12,18 @@ Before you begin, ensure you have met the following requirements:
 - **CMake**: 3.22 or higher
 
 
+# Dependencies
+We use xxHash3 for our bloom filter. Build it as follows:
+```
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+./vcpkg install xxhash
+cp ./installed/TARGET/include/*.h /usr/inlude
+cp ./installed/TARGET/lib/*.a /usr/lib
+```
+
 # Building
 To install first:
 ```
@@ -21,8 +33,8 @@ To build the binary:
 ```
 mkdir build
 cd buid
-cmake --target mtvpdhors -S .. -B . -DCMAKE_C_FLAGS="-O3 -w" 
-make
+cmake  -S .. -B . -DCMAKE_C_FLAGS="-O3 -w" 
+make [hors | mtvpdhors]
 ```
 Add `-DTIMEKEEPING` to get timing report.
 
@@ -38,8 +50,8 @@ seed file manually if no exists.
 # Example
 ## Build
 ```
-cmake --target mtvpdhors -S .. -B . -DCMAKE_C_FLAGS="-O3 -w -DTIMEKEEPING"
-make
+cmake  -S .. -B . -DCMAKE_C_FLAGS="-O3 -w -DTIMEKEEPING"
+make mtvpdhors
 ```
 
 ## Run
