@@ -1,0 +1,3384 @@
+
+;; Function ecall_array_user_check (ecall_array_user_check, funcdef_no=0, decl_uid=3131, cgraph_uid=2, symbol_order=1)
+
+void ecall_array_user_check (int * arr)
+{
+  int D.3457;
+  int tmp;
+  int i;
+  static const char __func__[23] [value-expr: "ecall_array_user_check"];
+  bool retval.0;
+  int _1;
+  long unsigned int _2;
+  long unsigned int _3;
+  int * _4;
+  int _5;
+  int _6;
+  long unsigned int _7;
+  long unsigned int _8;
+  int * _9;
+  int _17;
+  bool retval.0_18;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  _17 = sgx_is_outside_enclave (arr_15(D), 16);
+  _1 = _17;
+  retval.0_18 = _1 != 1;
+  if (retval.0_18 != 0)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+;;    succ:       3
+;;                4
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  abort ();
+;;    succ:      
+
+;;   basic block 4, loop depth 0
+;;    pred:       2
+  i_19 = 0;
+  goto <bb 8>; [INV]
+;;    succ:       8
+
+;;   basic block 5, loop depth 1
+;;    pred:       8
+  _2 = (long unsigned int) i_10;
+  _3 = _2 * 4;
+  _4 = arr_15(D) + _3;
+  _5 = *_4;
+  if (i_10 == _5)
+    goto <bb 7>; [INV]
+  else
+    goto <bb 6>; [INV]
+;;    succ:       7
+;;                6
+
+;;   basic block 6, loop depth 1
+;;    pred:       5
+  __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 48, "ecall_array_user_check", "arr[i] == i");
+;;    succ:       7
+
+;;   basic block 7, loop depth 1
+;;    pred:       5
+;;                6
+  _6 = 3 - i_10;
+  tmp = _6;
+  _7 = (long unsigned int) i_10;
+  _8 = _7 * 4;
+  _9 = arr_15(D) + _8;
+  memcpy_verw (_9, &tmp, 4);
+  tmp ={v} {CLOBBER(eos)};
+  i_24 = i_10 + 1;
+;;    succ:       8
+
+;;   basic block 8, loop depth 1
+;;    pred:       4
+;;                7
+  # i_10 = PHI <i_19(4), i_24(7)>
+  if (i_10 <= 3)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 9>; [INV]
+;;    succ:       5
+;;                9
+
+;;   basic block 9, loop depth 0
+;;    pred:       8
+  return;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5 - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (_9 - 9 )
+Partition 10 (i_10 - 10 )
+Partition 15 (arr_15(D) - 15 )
+Partition 17 (_17 - 17 )
+Partition 18 (retval.0_18 - 18 )
+Partition 19 (i_19 - 19 )
+Partition 24 (i_24 - 24 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (_1 - 1 17 )
+Partition 1, base 1 (i_10 - 10 19 24 )
+Partition 2, base 2 (arr_15(D) - 15 )
+
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (i_10 - 10 )
+Partition 2 (arr_15(D) - 15 )
+Partition 3 (_17 - 17 )
+Partition 4 (i_19 - 19 )
+Partition 5 (i_24 - 24 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(2147483646, 0) i_10 <-> i_19
+(2147483646, 0) i_10 <-> i_24
+(10000, 0) _1 <-> _17
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (i_10 - 10 )
+Partition 2 (arr_15(D) - 15 )
+Partition 3 (_17 - 17 )
+Partition 4 (i_19 - 19 )
+Partition 5 (i_24 - 24 )
+
+Coalesce list: (10)i_10 & (19)i_19 [map: 1, 4] : Success -> 1
+Coalesce list: (10)i_10 & (24)i_24 [map: 1, 5] : Success -> 1
+Coalesce list: (1)_1 & (17)_17 [map: 0, 3] : Success -> 0
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 17 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5 - 5 )
+Partition 5 (_6 - 6 )
+Partition 6 (_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (_9 - 9 )
+Partition 9 (i_10 - 10 19 24 )
+Partition 10 (arr_15(D) - 15 )
+Partition 11 (retval.0_18 - 18 )
+
+Partition 0: size 4 align 4
+	i_10
+Partition 1: size 4 align 4
+	tmp
+
+;; Generating RTL for gimple basic block 2
+
+;; _17 = sgx_is_outside_enclave (arr_15(D), 16);
+
+(insn 6 5 7 (set (reg:DI 108)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+
+(insn 7 6 8 (set (reg:DI 4 si)
+        (const_int 16 [0x10])) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+
+(insn 8 7 9 (set (reg:DI 5 di)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+
+(call_insn 9 8 10 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sgx_is_outside_enclave") [flags 0x41]  <function_decl 0x7caf427c8300 sgx_is_outside_enclave>) [0 sgx_is_outside_enclave S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+(insn 10 9 0 (set (reg:SI 98 [ _1 ])
+        (reg:SI 0 ax)) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+
+;; _1 = _17;
+
+(nil)
+
+;; retval.0_18 = _1 != 1;
+
+(insn 11 10 12 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 98 [ _1 ])
+            (const_int 1 [0x1]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:54 discrim 1 -1
+     (nil))
+
+(insn 12 11 0 (set (reg:QI 107 [ retval.0_18 ])
+        (ne:QI (reg:CCZ 17 flags)
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:54 discrim 1 -1
+     (nil))
+
+;; if (retval.0_18 != 0)
+
+(insn 13 12 14 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:QI 107 [ retval.0_18 ])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:5 discrim 1 -1
+     (nil))
+
+(jump_insn 14 13 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":44:5 discrim 1 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 3
+
+;; abort ();
+
+(call_insn 16 15 17 (call (mem:QI (symbol_ref:DI ("abort") [flags 0x41]  <function_decl 0x7caf4272a500 abort>) [0 __builtin_abort S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":45:14 -1
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (nil)))
+    (nil))
+
+(barrier 17 16 0)
+
+;; Generating RTL for gimple basic block 4
+
+;; 
+
+(code_label 18 17 19 2 (nil) [0 uses])
+
+(note 19 18 0 NOTE_INSN_BASIC_BLOCK)
+
+;; i_19 = 0;
+
+(insn 20 19 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":47:14 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 5
+
+;; _2 = (long unsigned int) i_10;
+
+(insn 24 23 25 (set (reg:SI 109)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+
+(insn 25 24 0 (set (reg:DI 99 [ _2 ])
+        (sign_extend:DI (reg:SI 109))) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+
+;; _3 = _2 * 4;
+
+(insn 26 25 0 (parallel [
+            (set (reg:DI 100 [ _3 ])
+                (ashift:DI (reg:DI 99 [ _2 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+
+;; _4 = arr_15(D) + _3;
+
+(insn 27 26 28 (set (reg/f:DI 110)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+
+(insn 28 27 0 (parallel [
+            (set (reg/f:DI 101 [ _4 ])
+                (plus:DI (reg:DI 100 [ _3 ])
+                    (reg/f:DI 110)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 100 [ _3 ]))
+        (nil)))
+
+;; _5 = *_4;
+
+(insn 29 28 0 (set (reg:SI 102 [ _5 ])
+        (mem:SI (reg/f:DI 101 [ _4 ]) [1 *_4+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+
+;; if (i_10 == _5)
+
+(insn 30 29 31 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (reg:SI 102 [ _5 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+
+(jump_insn 31 30 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 6
+
+;; __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 48, "ecall_array_user_check", "arr[i] == i");
+
+(insn 33 32 34 (set (reg:DI 111)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+
+(insn 34 33 35 (set (reg:DI 2 cx)
+        (reg:DI 111)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+
+(insn 35 34 36 (set (reg:DI 112)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7caf4241eea0 *.LC1>)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+
+(insn 36 35 37 (set (reg:DI 1 dx)
+        (reg:DI 112)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7caf4241eea0 *.LC1>)
+        (nil)))
+
+(insn 37 36 38 (set (reg:SI 4 si)
+        (const_int 48 [0x30])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+
+(insn 38 37 39 (set (reg:DI 113)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+
+(insn 39 38 40 (set (reg:DI 5 di)
+        (reg:DI 113)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+
+(call_insn 40 39 0 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+;; Generating RTL for gimple basic block 7
+
+;; 
+
+(code_label 41 40 42 4 (nil) [0 uses])
+
+(note 42 41 0 NOTE_INSN_BASIC_BLOCK)
+
+;; _6 = 3 - i_10;
+
+(insn 43 42 44 (set (reg:SI 114)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":53:21 -1
+     (nil))
+
+(insn 44 43 0 (parallel [
+            (set (reg:SI 103 [ _6 ])
+                (minus:SI (reg:SI 114)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":53:21 -1
+     (nil))
+
+;; tmp = _6;
+
+(insn 45 44 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 tmp+0 S4 A64])
+        (reg:SI 103 [ _6 ])) "Enclave/Edger8rSyntax/Arrays.cpp":53:13 -1
+     (nil))
+
+;; _7 = (long unsigned int) i_10;
+
+(insn 46 45 47 (set (reg:SI 115)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":54:26 -1
+     (nil))
+
+(insn 47 46 0 (set (reg:DI 104 [ _7 ])
+        (sign_extend:DI (reg:SI 115))) "Enclave/Edger8rSyntax/Arrays.cpp":54:26 -1
+     (nil))
+
+;; _8 = _7 * 4;
+
+(insn 48 47 0 (parallel [
+            (set (reg:DI 105 [ _8 ])
+                (ashift:DI (reg:DI 104 [ _7 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":54:27 -1
+     (nil))
+
+;; _9 = arr_15(D) + _8;
+
+(insn 49 48 50 (set (reg/f:DI 116)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":54:21 -1
+     (nil))
+
+(insn 50 49 0 (parallel [
+            (set (reg/f:DI 106 [ _9 ])
+                (plus:DI (reg:DI 105 [ _8 ])
+                    (reg/f:DI 116)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":54:21 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 105 [ _8 ]))
+        (nil)))
+
+;; memcpy_verw (_9, &tmp, 4);
+
+(insn 51 50 52 (parallel [
+            (set (reg:DI 117)
+                (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+
+(insn 52 51 53 (set (reg:DI 1 dx)
+        (const_int 4 [0x4])) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+
+(insn 53 52 54 (set (reg:DI 4 si)
+        (reg:DI 117)) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+
+(insn 54 53 55 (set (reg:DI 5 di)
+        (reg/f:DI 106 [ _9 ])) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+
+(call_insn 55 54 0 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("memcpy_verw") [flags 0x41]  <function_decl 0x7caf4240ab00 memcpy_verw>) [0 memcpy_verw S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+
+;; tmp ={v} {CLOBBER(eos)};
+
+(nil)
+
+;; i_24 = i_10 + 1;
+
+(insn 56 55 0 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":47:5 discrim 2 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 8
+
+;; 
+
+(code_label 57 56 58 3 (nil) [0 uses])
+
+(note 58 57 0 NOTE_INSN_BASIC_BLOCK)
+
+;; if (i_10 <= 3)
+
+(insn 62 58 63 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":47:23 discrim 1 -1
+     (nil))
+
+(jump_insn 63 62 0 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 59)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":47:23 discrim 1 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 9
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Forwarding edge 9->10 to 11 failed.
+Merging block 11 into block 10...
+Merged blocks 10 and 11.
+Merged 10 and 11 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL)
+;;  pred:       ENTRY (FALLTHRU)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+        (reg:DI 5 di [ arr ])) "Enclave/Edger8rSyntax/Arrays.cpp":43:1 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg:DI 108)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+(insn 7 6 8 2 (set (reg:DI 4 si)
+        (const_int 16 [0x10])) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:DI 5 di)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+(call_insn 9 8 10 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sgx_is_outside_enclave") [flags 0x41]  <function_decl 0x7caf427c8300 sgx_is_outside_enclave>) [0 sgx_is_outside_enclave S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 10 9 11 2 (set (reg:SI 98 [ _1 ])
+        (reg:SI 0 ax)) "Enclave/Edger8rSyntax/Arrays.cpp":44:31 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 98 [ _1 ])
+            (const_int 1 [0x1]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:54 discrim 1 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:QI 107 [ retval.0_18 ])
+        (ne:QI (reg:CCZ 17 flags)
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:54 discrim 1 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:QI 107 [ retval.0_18 ])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":44:5 discrim 1 -1
+     (nil))
+(jump_insn 14 13 15 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 18)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":44:5 discrim 1 -1
+     (nil)
+ -> 18)
+;;  succ:       4 (FALLTHRU)
+;;              5
+
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL)
+;;  pred:       2 (FALLTHRU)
+(note 15 14 16 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(call_insn 16 15 17 4 (call (mem:QI (symbol_ref:DI ("abort") [flags 0x41]  <function_decl 0x7caf4272a500 abort>) [0 __builtin_abort S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":45:14 -1
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (nil)))
+    (nil))
+;;  succ:      
+
+(barrier 17 16 18)
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL)
+;;  pred:       2
+(code_label 18 17 19 5 2 (nil) [1 uses])
+(note 19 18 20 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 20 19 21 5 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":47:14 -1
+     (nil))
+(jump_insn 21 20 22 5 (set (pc)
+        (label_ref 57)) "Enclave/Edger8rSyntax/Arrays.cpp":47:5 -1
+     (nil)
+ -> 57)
+;;  succ:       9 Enclave/Edger8rSyntax/Arrays.cpp:47:5
+
+(barrier 22 21 59)
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL)
+;;  pred:       9
+(code_label 59 22 23 6 5 (nil) [1 uses])
+(note 23 59 24 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 24 23 25 6 (set (reg:SI 109)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+(insn 25 24 26 6 (set (reg:DI 99 [ _2 ])
+        (sign_extend:DI (reg:SI 109))) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+(insn 26 25 27 6 (parallel [
+            (set (reg:DI 100 [ _3 ])
+                (ashift:DI (reg:DI 99 [ _2 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+(insn 27 26 28 6 (set (reg/f:DI 110)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+(insn 28 27 29 6 (parallel [
+            (set (reg/f:DI 101 [ _4 ])
+                (plus:DI (reg:DI 100 [ _3 ])
+                    (reg/f:DI 110)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 100 [ _3 ]))
+        (nil)))
+(insn 29 28 30 6 (set (reg:SI 102 [ _5 ])
+        (mem:SI (reg/f:DI 101 [ _4 ]) [1 *_4+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+(insn 30 29 31 6 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (reg:SI 102 [ _5 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil))
+(jump_insn 31 30 32 6 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 41)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 -1
+     (nil)
+ -> 41)
+;;  succ:       8
+;;              7 (FALLTHRU)
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL)
+;;  pred:       6 (FALLTHRU)
+(note 32 31 33 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 33 32 34 7 (set (reg:DI 111)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+(insn 34 33 35 7 (set (reg:DI 2 cx)
+        (reg:DI 111)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+(insn 35 34 36 7 (set (reg:DI 112)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7caf4241eea0 *.LC1>)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+(insn 36 35 37 7 (set (reg:DI 1 dx)
+        (reg:DI 112)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7caf4241eea0 *.LC1>)
+        (nil)))
+(insn 37 36 38 7 (set (reg:SI 4 si)
+        (const_int 48 [0x30])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+(insn 38 37 39 7 (set (reg:DI 113)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil))
+(insn 39 38 40 7 (set (reg:DI 5 di)
+        (reg:DI 113)) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+(call_insn 40 39 41 7 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":48:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:       8 (FALLTHRU)
+
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 9, flags: (NEW, REACHABLE, RTL)
+;;  pred:       6
+;;              7 (FALLTHRU)
+(code_label 41 40 42 8 4 (nil) [1 uses])
+(note 42 41 43 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 43 42 44 8 (set (reg:SI 114)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":53:21 -1
+     (nil))
+(insn 44 43 45 8 (parallel [
+            (set (reg:SI 103 [ _6 ])
+                (minus:SI (reg:SI 114)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":53:21 -1
+     (nil))
+(insn 45 44 46 8 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 tmp+0 S4 A64])
+        (reg:SI 103 [ _6 ])) "Enclave/Edger8rSyntax/Arrays.cpp":53:13 -1
+     (nil))
+(insn 46 45 47 8 (set (reg:SI 115)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":54:26 -1
+     (nil))
+(insn 47 46 48 8 (set (reg:DI 104 [ _7 ])
+        (sign_extend:DI (reg:SI 115))) "Enclave/Edger8rSyntax/Arrays.cpp":54:26 -1
+     (nil))
+(insn 48 47 49 8 (parallel [
+            (set (reg:DI 105 [ _8 ])
+                (ashift:DI (reg:DI 104 [ _7 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":54:27 -1
+     (nil))
+(insn 49 48 50 8 (set (reg/f:DI 116)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":54:21 -1
+     (nil))
+(insn 50 49 51 8 (parallel [
+            (set (reg/f:DI 106 [ _9 ])
+                (plus:DI (reg:DI 105 [ _8 ])
+                    (reg/f:DI 116)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":54:21 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 105 [ _8 ]))
+        (nil)))
+(insn 51 50 52 8 (parallel [
+            (set (reg:DI 117)
+                (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+(insn 52 51 53 8 (set (reg:DI 1 dx)
+        (const_int 4 [0x4])) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+(insn 53 52 54 8 (set (reg:DI 4 si)
+        (reg:DI 117)) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+(insn 54 53 55 8 (set (reg:DI 5 di)
+        (reg/f:DI 106 [ _9 ])) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil))
+(call_insn 55 54 56 8 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("memcpy_verw") [flags 0x41]  <function_decl 0x7caf4240ab00 memcpy_verw>) [0 memcpy_verw S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":54:20 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(insn 56 55 57 8 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":47:5 discrim 2 -1
+     (nil))
+;;  succ:       9 (FALLTHRU,DFS_BACK)
+
+;; basic block 9, loop depth 0, maybe hot
+;;  prev block 8, next block 10, flags: (NEW, REACHABLE, RTL)
+;;  pred:       5 Enclave/Edger8rSyntax/Arrays.cpp:47:5
+;;              8 (FALLTHRU,DFS_BACK)
+(code_label 57 56 58 9 3 (nil) [1 uses])
+(note 58 57 62 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(insn 62 58 63 9 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":47:23 discrim 1 -1
+     (nil))
+(jump_insn 63 62 64 9 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 59)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":47:23 discrim 1 -1
+     (nil)
+ -> 59)
+;;  succ:       6
+;;              10 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:56:1
+
+;; basic block 10, loop depth 0, maybe hot
+;;  prev block 9, next block 1, flags: (NEW, REACHABLE, RTL)
+;;  pred:       9 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:56:1
+(note 64 63 0 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+;;  succ:       EXIT [always]  (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:56:1
+
+
+;; Function ecall_array_in (ecall_array_in, funcdef_no=1, decl_uid=3134, cgraph_uid=3, symbol_order=2)
+
+void ecall_array_in (int * arr)
+{
+  int i;
+  static const char __func__[15] [value-expr: "ecall_array_in"];
+  long unsigned int _1;
+  long unsigned int _2;
+  int * _3;
+  int _4;
+  long unsigned int _5;
+  long unsigned int _6;
+  int * _7;
+  int _8;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  i_12 = 0;
+  goto <bb 6>; [INV]
+;;    succ:       6
+
+;;   basic block 3, loop depth 1
+;;    pred:       6
+  _1 = (long unsigned int) i_9;
+  _2 = _1 * 4;
+  _3 = arr_14(D) + _2;
+  _4 = *_3;
+  if (i_9 == _4)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 4>; [INV]
+;;    succ:       5
+;;                4
+
+;;   basic block 4, loop depth 1
+;;    pred:       3
+  __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 65, "ecall_array_in", "arr[i] == i");
+;;    succ:       5
+
+;;   basic block 5, loop depth 1
+;;    pred:       3
+;;                4
+  _5 = (long unsigned int) i_9;
+  _6 = _5 * 4;
+  _7 = arr_14(D) + _6;
+  _8 = 3 - i_9;
+  *_7 = _8;
+  i_17 = i_9 + 1;
+;;    succ:       6
+
+;;   basic block 6, loop depth 1
+;;    pred:       2
+;;                5
+  # i_9 = PHI <i_12(2), i_17(5)>
+  if (i_9 <= 3)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 7>; [INV]
+;;    succ:       3
+;;                7
+
+;;   basic block 7, loop depth 0
+;;    pred:       6
+  return;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5 - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (i_9 - 9 )
+Partition 12 (i_12 - 12 )
+Partition 14 (arr_14(D) - 14 )
+Partition 17 (i_17 - 17 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (i_9 - 9 12 17 )
+Partition 2, base 1 (arr_14(D) - 14 )
+
+
+Partition map 
+
+Partition 0 (i_9 - 9 )
+Partition 1 (i_12 - 12 )
+Partition 2 (arr_14(D) - 14 )
+Partition 3 (i_17 - 17 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(2147483646, 0) i_9 <-> i_12
+(2147483646, 0) i_9 <-> i_17
+
+Partition map 
+
+Partition 0 (i_9 - 9 )
+Partition 1 (i_12 - 12 )
+Partition 2 (arr_14(D) - 14 )
+Partition 3 (i_17 - 17 )
+
+Coalesce list: (9)i_9 & (12)i_12 [map: 0, 1] : Success -> 0
+Coalesce list: (9)i_9 & (17)i_17 [map: 0, 3] : Success -> 0
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5 - 5 )
+Partition 5 (_6 - 6 )
+Partition 6 (_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (i_9 - 9 12 17 )
+Partition 9 (arr_14(D) - 14 )
+
+Partition 0: size 4 align 4
+	i_9
+
+;; Generating RTL for gimple basic block 2
+
+;; i_12 = 0;
+
+(insn 6 5 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":64:14 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 3
+
+;; _1 = (long unsigned int) i_9;
+
+(insn 10 9 11 (set (reg:SI 106)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+
+(insn 11 10 0 (set (reg:DI 98 [ _1 ])
+        (sign_extend:DI (reg:SI 106))) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+
+;; _2 = _1 * 4;
+
+(insn 12 11 0 (parallel [
+            (set (reg:DI 99 [ _2 ])
+                (ashift:DI (reg:DI 98 [ _1 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+
+;; _3 = arr_14(D) + _2;
+
+(insn 13 12 14 (set (reg/f:DI 107)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+
+(insn 14 13 0 (parallel [
+            (set (reg/f:DI 100 [ _3 ])
+                (plus:DI (reg:DI 99 [ _2 ])
+                    (reg/f:DI 107)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 99 [ _2 ]))
+        (nil)))
+
+;; _4 = *_3;
+
+(insn 15 14 0 (set (reg:SI 101 [ _4 ])
+        (mem:SI (reg/f:DI 100 [ _3 ]) [1 *_3+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+
+;; if (i_9 == _4)
+
+(insn 16 15 17 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (reg:SI 101 [ _4 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+
+(jump_insn 17 16 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 4
+
+;; __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 65, "ecall_array_in", "arr[i] == i");
+
+(insn 19 18 20 (set (reg:DI 108)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+
+(insn 20 19 21 (set (reg:DI 2 cx)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+
+(insn 21 20 22 (set (reg:DI 109)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7caf42445000 *.LC3>)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+
+(insn 22 21 23 (set (reg:DI 1 dx)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7caf42445000 *.LC3>)
+        (nil)))
+
+(insn 23 22 24 (set (reg:SI 4 si)
+        (const_int 65 [0x41])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+
+(insn 24 23 25 (set (reg:DI 110)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+
+(insn 25 24 26 (set (reg:DI 5 di)
+        (reg:DI 110)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+
+(call_insn 26 25 0 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+;; Generating RTL for gimple basic block 5
+
+;; 
+
+(code_label 27 26 28 8 (nil) [0 uses])
+
+(note 28 27 0 NOTE_INSN_BASIC_BLOCK)
+
+;; _5 = (long unsigned int) i_9;
+
+(insn 29 28 30 (set (reg:SI 111)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":66:13 -1
+     (nil))
+
+(insn 30 29 0 (set (reg:DI 102 [ _5 ])
+        (sign_extend:DI (reg:SI 111))) "Enclave/Edger8rSyntax/Arrays.cpp":66:13 -1
+     (nil))
+
+;; _6 = _5 * 4;
+
+(insn 31 30 0 (parallel [
+            (set (reg:DI 103 [ _6 ])
+                (ashift:DI (reg:DI 102 [ _5 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":66:14 -1
+     (nil))
+
+;; _7 = arr_14(D) + _6;
+
+(insn 32 31 33 (set (reg/f:DI 112)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":66:14 -1
+     (nil))
+
+(insn 33 32 0 (parallel [
+            (set (reg/f:DI 104 [ _7 ])
+                (plus:DI (reg:DI 103 [ _6 ])
+                    (reg/f:DI 112)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":66:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 103 [ _6 ]))
+        (nil)))
+
+;; _8 = 3 - i_9;
+
+(insn 34 33 35 (set (reg:SI 113)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":66:21 -1
+     (nil))
+
+(insn 35 34 0 (parallel [
+            (set (reg:SI 105 [ _8 ])
+                (minus:SI (reg:SI 113)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":66:21 -1
+     (nil))
+
+;; *_7 = _8;
+
+(insn 36 35 0 (set (mem:SI (reg/f:DI 104 [ _7 ]) [1 *_7+0 S4 A32])
+        (reg:SI 105 [ _8 ])) "Enclave/Edger8rSyntax/Arrays.cpp":66:16 -1
+     (nil))
+
+;; i_17 = i_9 + 1;
+
+(insn 37 36 0 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":64:5 discrim 2 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 6
+
+;; 
+
+(code_label 38 37 39 7 (nil) [0 uses])
+
+(note 39 38 0 NOTE_INSN_BASIC_BLOCK)
+
+;; if (i_9 <= 3)
+
+(insn 43 39 44 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":64:23 discrim 1 -1
+     (nil))
+
+(jump_insn 44 43 0 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":64:23 discrim 1 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 7
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Forwarding edge 7->8 to 9 failed.
+Merging block 9 into block 8...
+Merged blocks 8 and 9.
+Merged 8 and 9 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY (FALLTHRU)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+        (reg:DI 5 di [ arr ])) "Enclave/Edger8rSyntax/Arrays.cpp":63:1 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":64:14 -1
+     (nil))
+(jump_insn 7 6 8 2 (set (pc)
+        (label_ref 38)) "Enclave/Edger8rSyntax/Arrays.cpp":64:5 -1
+     (nil)
+ -> 38)
+;;  succ:       7 Enclave/Edger8rSyntax/Arrays.cpp:64:5
+
+(barrier 8 7 40)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       7
+(code_label 40 8 9 4 9 (nil) [1 uses])
+(note 9 40 10 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 4 (set (reg:SI 106)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+(insn 11 10 12 4 (set (reg:DI 98 [ _1 ])
+        (sign_extend:DI (reg:SI 106))) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+(insn 12 11 13 4 (parallel [
+            (set (reg:DI 99 [ _2 ])
+                (ashift:DI (reg:DI 98 [ _1 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+(insn 13 12 14 4 (set (reg/f:DI 107)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+(insn 14 13 15 4 (parallel [
+            (set (reg/f:DI 100 [ _3 ])
+                (plus:DI (reg:DI 99 [ _2 ])
+                    (reg/f:DI 107)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 99 [ _2 ]))
+        (nil)))
+(insn 15 14 16 4 (set (reg:SI 101 [ _4 ])
+        (mem:SI (reg/f:DI 100 [ _3 ]) [1 *_3+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+(insn 16 15 17 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (reg:SI 101 [ _4 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil))
+(jump_insn 17 16 18 4 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 27)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 -1
+     (nil)
+ -> 27)
+;;  succ:       6
+;;              5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4 (FALLTHRU)
+(note 18 17 19 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 19 18 20 5 (set (reg:DI 108)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+(insn 20 19 21 5 (set (reg:DI 2 cx)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+(insn 21 20 22 5 (set (reg:DI 109)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7caf42445000 *.LC3>)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+(insn 22 21 23 5 (set (reg:DI 1 dx)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7caf42445000 *.LC3>)
+        (nil)))
+(insn 23 22 24 5 (set (reg:SI 4 si)
+        (const_int 65 [0x41])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+(insn 24 23 25 5 (set (reg:DI 110)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil))
+(insn 25 24 26 5 (set (reg:DI 5 di)
+        (reg:DI 110)) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+(call_insn 26 25 27 5 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":65:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:       6 (FALLTHRU)
+
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4
+;;              5 (FALLTHRU)
+(code_label 27 26 28 6 8 (nil) [1 uses])
+(note 28 27 29 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 29 28 30 6 (set (reg:SI 111)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":66:13 -1
+     (nil))
+(insn 30 29 31 6 (set (reg:DI 102 [ _5 ])
+        (sign_extend:DI (reg:SI 111))) "Enclave/Edger8rSyntax/Arrays.cpp":66:13 -1
+     (nil))
+(insn 31 30 32 6 (parallel [
+            (set (reg:DI 103 [ _6 ])
+                (ashift:DI (reg:DI 102 [ _5 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":66:14 -1
+     (nil))
+(insn 32 31 33 6 (set (reg/f:DI 112)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":66:14 -1
+     (nil))
+(insn 33 32 34 6 (parallel [
+            (set (reg/f:DI 104 [ _7 ])
+                (plus:DI (reg:DI 103 [ _6 ])
+                    (reg/f:DI 112)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":66:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 103 [ _6 ]))
+        (nil)))
+(insn 34 33 35 6 (set (reg:SI 113)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":66:21 -1
+     (nil))
+(insn 35 34 36 6 (parallel [
+            (set (reg:SI 105 [ _8 ])
+                (minus:SI (reg:SI 113)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":66:21 -1
+     (nil))
+(insn 36 35 37 6 (set (mem:SI (reg/f:DI 104 [ _7 ]) [1 *_7+0 S4 A32])
+        (reg:SI 105 [ _8 ])) "Enclave/Edger8rSyntax/Arrays.cpp":66:16 -1
+     (nil))
+(insn 37 36 38 6 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":64:5 discrim 2 -1
+     (nil))
+;;  succ:       7 (FALLTHRU,DFS_BACK)
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       2 Enclave/Edger8rSyntax/Arrays.cpp:64:5
+;;              6 (FALLTHRU,DFS_BACK)
+(code_label 38 37 39 7 7 (nil) [1 uses])
+(note 39 38 43 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 43 39 44 7 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":64:23 discrim 1 -1
+     (nil))
+(jump_insn 44 43 45 7 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":64:23 discrim 1 -1
+     (nil)
+ -> 40)
+;;  succ:       4
+;;              8 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:68:1
+
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 1, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       7 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:68:1
+(note 45 44 0 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+;;  succ:       EXIT [always]  (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:68:1
+
+
+;; Function ecall_array_out (ecall_array_out, funcdef_no=2, decl_uid=3137, cgraph_uid=4, symbol_order=3)
+
+void ecall_array_out (int * arr)
+{
+  int i;
+  static const char __func__[16] [value-expr: "ecall_array_out"];
+  long unsigned int _1;
+  long unsigned int _2;
+  int * _3;
+  int _4;
+  long unsigned int _5;
+  long unsigned int _6;
+  int * _7;
+  int _8;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  i_12 = 0;
+  goto <bb 6>; [INV]
+;;    succ:       6
+
+;;   basic block 3, loop depth 1
+;;    pred:       6
+  _1 = (long unsigned int) i_9;
+  _2 = _1 * 4;
+  _3 = arr_14(D) + _2;
+  _4 = *_3;
+  if (_4 == 0)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 4>; [INV]
+;;    succ:       5
+;;                4
+
+;;   basic block 4, loop depth 1
+;;    pred:       3
+  __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 78, "ecall_array_out", "arr[i] == 0");
+;;    succ:       5
+
+;;   basic block 5, loop depth 1
+;;    pred:       3
+;;                4
+  _5 = (long unsigned int) i_9;
+  _6 = _5 * 4;
+  _7 = arr_14(D) + _6;
+  _8 = 3 - i_9;
+  *_7 = _8;
+  i_17 = i_9 + 1;
+;;    succ:       6
+
+;;   basic block 6, loop depth 1
+;;    pred:       2
+;;                5
+  # i_9 = PHI <i_12(2), i_17(5)>
+  if (i_9 <= 3)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 7>; [INV]
+;;    succ:       3
+;;                7
+
+;;   basic block 7, loop depth 0
+;;    pred:       6
+  return;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5 - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (i_9 - 9 )
+Partition 12 (i_12 - 12 )
+Partition 14 (arr_14(D) - 14 )
+Partition 17 (i_17 - 17 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (i_9 - 9 12 17 )
+Partition 2, base 1 (arr_14(D) - 14 )
+
+
+Partition map 
+
+Partition 0 (i_9 - 9 )
+Partition 1 (i_12 - 12 )
+Partition 2 (arr_14(D) - 14 )
+Partition 3 (i_17 - 17 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(2147483646, 0) i_9 <-> i_12
+(2147483646, 0) i_9 <-> i_17
+
+Partition map 
+
+Partition 0 (i_9 - 9 )
+Partition 1 (i_12 - 12 )
+Partition 2 (arr_14(D) - 14 )
+Partition 3 (i_17 - 17 )
+
+Coalesce list: (9)i_9 & (12)i_12 [map: 0, 1] : Success -> 0
+Coalesce list: (9)i_9 & (17)i_17 [map: 0, 3] : Success -> 0
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5 - 5 )
+Partition 5 (_6 - 6 )
+Partition 6 (_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (i_9 - 9 12 17 )
+Partition 9 (arr_14(D) - 14 )
+
+Partition 0: size 4 align 4
+	i_9
+
+;; Generating RTL for gimple basic block 2
+
+;; i_12 = 0;
+
+(insn 6 5 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":76:14 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 3
+
+;; _1 = (long unsigned int) i_9;
+
+(insn 10 9 11 (set (reg:SI 106)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+
+(insn 11 10 0 (set (reg:DI 98 [ _1 ])
+        (sign_extend:DI (reg:SI 106))) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+
+;; _2 = _1 * 4;
+
+(insn 12 11 0 (parallel [
+            (set (reg:DI 99 [ _2 ])
+                (ashift:DI (reg:DI 98 [ _1 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+
+;; _3 = arr_14(D) + _2;
+
+(insn 13 12 14 (set (reg/f:DI 107)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+
+(insn 14 13 0 (parallel [
+            (set (reg/f:DI 100 [ _3 ])
+                (plus:DI (reg:DI 99 [ _2 ])
+                    (reg/f:DI 107)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 99 [ _2 ]))
+        (nil)))
+
+;; _4 = *_3;
+
+(insn 15 14 0 (set (reg:SI 101 [ _4 ])
+        (mem:SI (reg/f:DI 100 [ _3 ]) [1 *_3+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+
+;; if (_4 == 0)
+
+(insn 16 15 17 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 101 [ _4 ])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+
+(jump_insn 17 16 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 4
+
+;; __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 78, "ecall_array_out", "arr[i] == 0");
+
+(insn 19 18 20 (set (reg:DI 108)
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7caf42445090 *.LC4>)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+
+(insn 20 19 21 (set (reg:DI 2 cx)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7caf42445090 *.LC4>)
+        (nil)))
+
+(insn 21 20 22 (set (reg:DI 109)
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7caf42445120 *.LC5>)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+
+(insn 22 21 23 (set (reg:DI 1 dx)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7caf42445120 *.LC5>)
+        (nil)))
+
+(insn 23 22 24 (set (reg:SI 4 si)
+        (const_int 78 [0x4e])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+
+(insn 24 23 25 (set (reg:DI 110)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+
+(insn 25 24 26 (set (reg:DI 5 di)
+        (reg:DI 110)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+
+(call_insn 26 25 0 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+;; Generating RTL for gimple basic block 5
+
+;; 
+
+(code_label 27 26 28 12 (nil) [0 uses])
+
+(note 28 27 0 NOTE_INSN_BASIC_BLOCK)
+
+;; _5 = (long unsigned int) i_9;
+
+(insn 29 28 30 (set (reg:SI 111)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":79:13 -1
+     (nil))
+
+(insn 30 29 0 (set (reg:DI 102 [ _5 ])
+        (sign_extend:DI (reg:SI 111))) "Enclave/Edger8rSyntax/Arrays.cpp":79:13 -1
+     (nil))
+
+;; _6 = _5 * 4;
+
+(insn 31 30 0 (parallel [
+            (set (reg:DI 103 [ _6 ])
+                (ashift:DI (reg:DI 102 [ _5 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":79:14 -1
+     (nil))
+
+;; _7 = arr_14(D) + _6;
+
+(insn 32 31 33 (set (reg/f:DI 112)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":79:14 -1
+     (nil))
+
+(insn 33 32 0 (parallel [
+            (set (reg/f:DI 104 [ _7 ])
+                (plus:DI (reg:DI 103 [ _6 ])
+                    (reg/f:DI 112)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":79:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 103 [ _6 ]))
+        (nil)))
+
+;; _8 = 3 - i_9;
+
+(insn 34 33 35 (set (reg:SI 113)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":79:21 -1
+     (nil))
+
+(insn 35 34 0 (parallel [
+            (set (reg:SI 105 [ _8 ])
+                (minus:SI (reg:SI 113)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":79:21 -1
+     (nil))
+
+;; *_7 = _8;
+
+(insn 36 35 0 (set (mem:SI (reg/f:DI 104 [ _7 ]) [1 *_7+0 S4 A32])
+        (reg:SI 105 [ _8 ])) "Enclave/Edger8rSyntax/Arrays.cpp":79:16 -1
+     (nil))
+
+;; i_17 = i_9 + 1;
+
+(insn 37 36 0 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":76:5 discrim 2 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 6
+
+;; 
+
+(code_label 38 37 39 11 (nil) [0 uses])
+
+(note 39 38 0 NOTE_INSN_BASIC_BLOCK)
+
+;; if (i_9 <= 3)
+
+(insn 43 39 44 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":76:23 discrim 1 -1
+     (nil))
+
+(jump_insn 44 43 0 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":76:23 discrim 1 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 7
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Forwarding edge 7->8 to 9 failed.
+Merging block 9 into block 8...
+Merged blocks 8 and 9.
+Merged 8 and 9 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY (FALLTHRU)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+        (reg:DI 5 di [ arr ])) "Enclave/Edger8rSyntax/Arrays.cpp":75:1 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":76:14 -1
+     (nil))
+(jump_insn 7 6 8 2 (set (pc)
+        (label_ref 38)) "Enclave/Edger8rSyntax/Arrays.cpp":76:5 -1
+     (nil)
+ -> 38)
+;;  succ:       7 Enclave/Edger8rSyntax/Arrays.cpp:76:5
+
+(barrier 8 7 40)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       7
+(code_label 40 8 9 4 13 (nil) [1 uses])
+(note 9 40 10 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 4 (set (reg:SI 106)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+(insn 11 10 12 4 (set (reg:DI 98 [ _1 ])
+        (sign_extend:DI (reg:SI 106))) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+(insn 12 11 13 4 (parallel [
+            (set (reg:DI 99 [ _2 ])
+                (ashift:DI (reg:DI 98 [ _1 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+(insn 13 12 14 4 (set (reg/f:DI 107)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+(insn 14 13 15 4 (parallel [
+            (set (reg/f:DI 100 [ _3 ])
+                (plus:DI (reg:DI 99 [ _2 ])
+                    (reg/f:DI 107)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 99 [ _2 ]))
+        (nil)))
+(insn 15 14 16 4 (set (reg:SI 101 [ _4 ])
+        (mem:SI (reg/f:DI 100 [ _3 ]) [1 *_3+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+(insn 16 15 17 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 101 [ _4 ])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil))
+(jump_insn 17 16 18 4 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 27)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 -1
+     (nil)
+ -> 27)
+;;  succ:       6
+;;              5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4 (FALLTHRU)
+(note 18 17 19 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 19 18 20 5 (set (reg:DI 108)
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7caf42445090 *.LC4>)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+(insn 20 19 21 5 (set (reg:DI 2 cx)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7caf42445090 *.LC4>)
+        (nil)))
+(insn 21 20 22 5 (set (reg:DI 109)
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7caf42445120 *.LC5>)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+(insn 22 21 23 5 (set (reg:DI 1 dx)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7caf42445120 *.LC5>)
+        (nil)))
+(insn 23 22 24 5 (set (reg:SI 4 si)
+        (const_int 78 [0x4e])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+(insn 24 23 25 5 (set (reg:DI 110)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil))
+(insn 25 24 26 5 (set (reg:DI 5 di)
+        (reg:DI 110)) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+(call_insn 26 25 27 5 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":78:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:       6 (FALLTHRU)
+
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4
+;;              5 (FALLTHRU)
+(code_label 27 26 28 6 12 (nil) [1 uses])
+(note 28 27 29 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 29 28 30 6 (set (reg:SI 111)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":79:13 -1
+     (nil))
+(insn 30 29 31 6 (set (reg:DI 102 [ _5 ])
+        (sign_extend:DI (reg:SI 111))) "Enclave/Edger8rSyntax/Arrays.cpp":79:13 -1
+     (nil))
+(insn 31 30 32 6 (parallel [
+            (set (reg:DI 103 [ _6 ])
+                (ashift:DI (reg:DI 102 [ _5 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":79:14 -1
+     (nil))
+(insn 32 31 33 6 (set (reg/f:DI 112)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":79:14 -1
+     (nil))
+(insn 33 32 34 6 (parallel [
+            (set (reg/f:DI 104 [ _7 ])
+                (plus:DI (reg:DI 103 [ _6 ])
+                    (reg/f:DI 112)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":79:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 103 [ _6 ]))
+        (nil)))
+(insn 34 33 35 6 (set (reg:SI 113)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":79:21 -1
+     (nil))
+(insn 35 34 36 6 (parallel [
+            (set (reg:SI 105 [ _8 ])
+                (minus:SI (reg:SI 113)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":79:21 -1
+     (nil))
+(insn 36 35 37 6 (set (mem:SI (reg/f:DI 104 [ _7 ]) [1 *_7+0 S4 A32])
+        (reg:SI 105 [ _8 ])) "Enclave/Edger8rSyntax/Arrays.cpp":79:16 -1
+     (nil))
+(insn 37 36 38 6 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":76:5 discrim 2 -1
+     (nil))
+;;  succ:       7 (FALLTHRU,DFS_BACK)
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       2 Enclave/Edger8rSyntax/Arrays.cpp:76:5
+;;              6 (FALLTHRU,DFS_BACK)
+(code_label 38 37 39 7 11 (nil) [1 uses])
+(note 39 38 43 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 43 39 44 7 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":76:23 discrim 1 -1
+     (nil))
+(jump_insn 44 43 45 7 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":76:23 discrim 1 -1
+     (nil)
+ -> 40)
+;;  succ:       4
+;;              8 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:81:1
+
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 1, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       7 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:81:1
+(note 45 44 0 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+;;  succ:       EXIT [always]  (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:81:1
+
+
+;; Function ecall_array_in_out (ecall_array_in_out, funcdef_no=3, decl_uid=3140, cgraph_uid=5, symbol_order=4)
+
+void ecall_array_in_out (int * arr)
+{
+  int i;
+  static const char __func__[19] [value-expr: "ecall_array_in_out"];
+  long unsigned int _1;
+  long unsigned int _2;
+  int * _3;
+  int _4;
+  long unsigned int _5;
+  long unsigned int _6;
+  int * _7;
+  int _8;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  i_12 = 0;
+  goto <bb 6>; [INV]
+;;    succ:       6
+
+;;   basic block 3, loop depth 1
+;;    pred:       6
+  _1 = (long unsigned int) i_9;
+  _2 = _1 * 4;
+  _3 = arr_14(D) + _2;
+  _4 = *_3;
+  if (i_9 == _4)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 4>; [INV]
+;;    succ:       5
+;;                4
+
+;;   basic block 4, loop depth 1
+;;    pred:       3
+  __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 90, "ecall_array_in_out", "arr[i] == i");
+;;    succ:       5
+
+;;   basic block 5, loop depth 1
+;;    pred:       3
+;;                4
+  _5 = (long unsigned int) i_9;
+  _6 = _5 * 4;
+  _7 = arr_14(D) + _6;
+  _8 = 3 - i_9;
+  *_7 = _8;
+  i_17 = i_9 + 1;
+;;    succ:       6
+
+;;   basic block 6, loop depth 1
+;;    pred:       2
+;;                5
+  # i_9 = PHI <i_12(2), i_17(5)>
+  if (i_9 <= 3)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 7>; [INV]
+;;    succ:       3
+;;                7
+
+;;   basic block 7, loop depth 0
+;;    pred:       6
+  return;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5 - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (i_9 - 9 )
+Partition 12 (i_12 - 12 )
+Partition 14 (arr_14(D) - 14 )
+Partition 17 (i_17 - 17 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (i_9 - 9 12 17 )
+Partition 2, base 1 (arr_14(D) - 14 )
+
+
+Partition map 
+
+Partition 0 (i_9 - 9 )
+Partition 1 (i_12 - 12 )
+Partition 2 (arr_14(D) - 14 )
+Partition 3 (i_17 - 17 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(2147483646, 0) i_9 <-> i_12
+(2147483646, 0) i_9 <-> i_17
+
+Partition map 
+
+Partition 0 (i_9 - 9 )
+Partition 1 (i_12 - 12 )
+Partition 2 (arr_14(D) - 14 )
+Partition 3 (i_17 - 17 )
+
+Coalesce list: (9)i_9 & (12)i_12 [map: 0, 1] : Success -> 0
+Coalesce list: (9)i_9 & (17)i_17 [map: 0, 3] : Success -> 0
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5 - 5 )
+Partition 5 (_6 - 6 )
+Partition 6 (_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (i_9 - 9 12 17 )
+Partition 9 (arr_14(D) - 14 )
+
+Partition 0: size 4 align 4
+	i_9
+
+;; Generating RTL for gimple basic block 2
+
+;; i_12 = 0;
+
+(insn 6 5 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":89:14 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 3
+
+;; _1 = (long unsigned int) i_9;
+
+(insn 10 9 11 (set (reg:SI 106)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+
+(insn 11 10 0 (set (reg:DI 98 [ _1 ])
+        (sign_extend:DI (reg:SI 106))) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+
+;; _2 = _1 * 4;
+
+(insn 12 11 0 (parallel [
+            (set (reg:DI 99 [ _2 ])
+                (ashift:DI (reg:DI 98 [ _1 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+
+;; _3 = arr_14(D) + _2;
+
+(insn 13 12 14 (set (reg/f:DI 107)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+
+(insn 14 13 0 (parallel [
+            (set (reg/f:DI 100 [ _3 ])
+                (plus:DI (reg:DI 99 [ _2 ])
+                    (reg/f:DI 107)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 99 [ _2 ]))
+        (nil)))
+
+;; _4 = *_3;
+
+(insn 15 14 0 (set (reg:SI 101 [ _4 ])
+        (mem:SI (reg/f:DI 100 [ _3 ]) [1 *_3+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+
+;; if (i_9 == _4)
+
+(insn 16 15 17 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (reg:SI 101 [ _4 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+
+(jump_insn 17 16 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 4
+
+;; __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 90, "ecall_array_in_out", "arr[i] == i");
+
+(insn 19 18 20 (set (reg:DI 108)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+
+(insn 20 19 21 (set (reg:DI 2 cx)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+
+(insn 21 20 22 (set (reg:DI 109)
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7caf42445240 *.LC6>)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+
+(insn 22 21 23 (set (reg:DI 1 dx)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7caf42445240 *.LC6>)
+        (nil)))
+
+(insn 23 22 24 (set (reg:SI 4 si)
+        (const_int 90 [0x5a])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+
+(insn 24 23 25 (set (reg:DI 110)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+
+(insn 25 24 26 (set (reg:DI 5 di)
+        (reg:DI 110)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+
+(call_insn 26 25 0 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+;; Generating RTL for gimple basic block 5
+
+;; 
+
+(code_label 27 26 28 16 (nil) [0 uses])
+
+(note 28 27 0 NOTE_INSN_BASIC_BLOCK)
+
+;; _5 = (long unsigned int) i_9;
+
+(insn 29 28 30 (set (reg:SI 111)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":91:13 -1
+     (nil))
+
+(insn 30 29 0 (set (reg:DI 102 [ _5 ])
+        (sign_extend:DI (reg:SI 111))) "Enclave/Edger8rSyntax/Arrays.cpp":91:13 -1
+     (nil))
+
+;; _6 = _5 * 4;
+
+(insn 31 30 0 (parallel [
+            (set (reg:DI 103 [ _6 ])
+                (ashift:DI (reg:DI 102 [ _5 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":91:14 -1
+     (nil))
+
+;; _7 = arr_14(D) + _6;
+
+(insn 32 31 33 (set (reg/f:DI 112)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":91:14 -1
+     (nil))
+
+(insn 33 32 0 (parallel [
+            (set (reg/f:DI 104 [ _7 ])
+                (plus:DI (reg:DI 103 [ _6 ])
+                    (reg/f:DI 112)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":91:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 103 [ _6 ]))
+        (nil)))
+
+;; _8 = 3 - i_9;
+
+(insn 34 33 35 (set (reg:SI 113)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":91:21 -1
+     (nil))
+
+(insn 35 34 0 (parallel [
+            (set (reg:SI 105 [ _8 ])
+                (minus:SI (reg:SI 113)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":91:21 -1
+     (nil))
+
+;; *_7 = _8;
+
+(insn 36 35 0 (set (mem:SI (reg/f:DI 104 [ _7 ]) [1 *_7+0 S4 A32])
+        (reg:SI 105 [ _8 ])) "Enclave/Edger8rSyntax/Arrays.cpp":91:16 -1
+     (nil))
+
+;; i_17 = i_9 + 1;
+
+(insn 37 36 0 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":89:5 discrim 2 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 6
+
+;; 
+
+(code_label 38 37 39 15 (nil) [0 uses])
+
+(note 39 38 0 NOTE_INSN_BASIC_BLOCK)
+
+;; if (i_9 <= 3)
+
+(insn 43 39 44 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":89:23 discrim 1 -1
+     (nil))
+
+(jump_insn 44 43 0 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":89:23 discrim 1 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 7
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Forwarding edge 7->8 to 9 failed.
+Merging block 9 into block 8...
+Merged blocks 8 and 9.
+Merged 8 and 9 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       ENTRY (FALLTHRU)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+        (reg:DI 5 di [ arr ])) "Enclave/Edger8rSyntax/Arrays.cpp":88:1 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":89:14 -1
+     (nil))
+(jump_insn 7 6 8 2 (set (pc)
+        (label_ref 38)) "Enclave/Edger8rSyntax/Arrays.cpp":89:5 -1
+     (nil)
+ -> 38)
+;;  succ:       7 Enclave/Edger8rSyntax/Arrays.cpp:89:5
+
+(barrier 8 7 40)
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       7
+(code_label 40 8 9 4 17 (nil) [1 uses])
+(note 9 40 10 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 4 (set (reg:SI 106)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+(insn 11 10 12 4 (set (reg:DI 98 [ _1 ])
+        (sign_extend:DI (reg:SI 106))) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+(insn 12 11 13 4 (parallel [
+            (set (reg:DI 99 [ _2 ])
+                (ashift:DI (reg:DI 98 [ _1 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+(insn 13 12 14 4 (set (reg/f:DI 107)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+(insn 14 13 15 4 (parallel [
+            (set (reg/f:DI 100 [ _3 ])
+                (plus:DI (reg:DI 99 [ _2 ])
+                    (reg/f:DI 107)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 99 [ _2 ]))
+        (nil)))
+(insn 15 14 16 4 (set (reg:SI 101 [ _4 ])
+        (mem:SI (reg/f:DI 100 [ _3 ]) [1 *_3+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+(insn 16 15 17 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (reg:SI 101 [ _4 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil))
+(jump_insn 17 16 18 4 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 27)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 -1
+     (nil)
+ -> 27)
+;;  succ:       6
+;;              5 (FALLTHRU)
+
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4 (FALLTHRU)
+(note 18 17 19 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 19 18 20 5 (set (reg:DI 108)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+(insn 20 19 21 5 (set (reg:DI 2 cx)
+        (reg:DI 108)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+(insn 21 20 22 5 (set (reg:DI 109)
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7caf42445240 *.LC6>)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+(insn 22 21 23 5 (set (reg:DI 1 dx)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7caf42445240 *.LC6>)
+        (nil)))
+(insn 23 22 24 5 (set (reg:SI 4 si)
+        (const_int 90 [0x5a])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+(insn 24 23 25 5 (set (reg:DI 110)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil))
+(insn 25 24 26 5 (set (reg:DI 5 di)
+        (reg:DI 110)) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+(call_insn 26 25 27 5 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":90:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:       6 (FALLTHRU)
+
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       4
+;;              5 (FALLTHRU)
+(code_label 27 26 28 6 16 (nil) [1 uses])
+(note 28 27 29 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 29 28 30 6 (set (reg:SI 111)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":91:13 -1
+     (nil))
+(insn 30 29 31 6 (set (reg:DI 102 [ _5 ])
+        (sign_extend:DI (reg:SI 111))) "Enclave/Edger8rSyntax/Arrays.cpp":91:13 -1
+     (nil))
+(insn 31 30 32 6 (parallel [
+            (set (reg:DI 103 [ _6 ])
+                (ashift:DI (reg:DI 102 [ _5 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":91:14 -1
+     (nil))
+(insn 32 31 33 6 (set (reg/f:DI 112)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":91:14 -1
+     (nil))
+(insn 33 32 34 6 (parallel [
+            (set (reg/f:DI 104 [ _7 ])
+                (plus:DI (reg:DI 103 [ _6 ])
+                    (reg/f:DI 112)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":91:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 103 [ _6 ]))
+        (nil)))
+(insn 34 33 35 6 (set (reg:SI 113)
+        (const_int 3 [0x3])) "Enclave/Edger8rSyntax/Arrays.cpp":91:21 -1
+     (nil))
+(insn 35 34 36 6 (parallel [
+            (set (reg:SI 105 [ _8 ])
+                (minus:SI (reg:SI 113)
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":91:21 -1
+     (nil))
+(insn 36 35 37 6 (set (mem:SI (reg/f:DI 104 [ _7 ]) [1 *_7+0 S4 A32])
+        (reg:SI 105 [ _8 ])) "Enclave/Edger8rSyntax/Arrays.cpp":91:16 -1
+     (nil))
+(insn 37 36 38 6 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":89:5 discrim 2 -1
+     (nil))
+;;  succ:       7 (FALLTHRU,DFS_BACK)
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       2 Enclave/Edger8rSyntax/Arrays.cpp:89:5
+;;              6 (FALLTHRU,DFS_BACK)
+(code_label 38 37 39 7 15 (nil) [1 uses])
+(note 39 38 43 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 43 39 44 7 (set (reg:CCGC 17 flags)
+        (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 i+0 S4 A32])
+            (const_int 3 [0x3]))) "Enclave/Edger8rSyntax/Arrays.cpp":89:23 discrim 1 -1
+     (nil))
+(jump_insn 44 43 45 7 (set (pc)
+        (if_then_else (le (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":89:23 discrim 1 -1
+     (nil)
+ -> 40)
+;;  succ:       4
+;;              8 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:93:1
+
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 1, flags: (NEW, REACHABLE, RTL, VISITED)
+;;  pred:       7 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:93:1
+(note 45 44 0 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+;;  succ:       EXIT [always]  (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:93:1
+
+
+;; Function ecall_array_isary (ecall_array_isary, funcdef_no=4, decl_uid=3143, cgraph_uid=6, symbol_order=5)
+
+void ecall_array_isary (int * arr)
+{
+  int D.3475;
+  int tmp;
+  int i;
+  static const char __func__[18] [value-expr: "ecall_array_isary"];
+  int n;
+  bool retval.1;
+  int _1;
+  long unsigned int _2;
+  long unsigned int _3;
+  int * _4;
+  int _5;
+  int _6;
+  int _7;
+  long unsigned int _8;
+  long unsigned int _9;
+  int * _10;
+  int _18;
+  bool retval.1_19;
+
+;;   basic block 2, loop depth 0
+;;    pred:       ENTRY
+  _18 = sgx_is_outside_enclave (arr_16(D), 40);
+  _1 = _18;
+  retval.1_19 = _1 != 1;
+  if (retval.1_19 != 0)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+;;    succ:       3
+;;                4
+
+;;   basic block 3, loop depth 0
+;;    pred:       2
+  abort ();
+;;    succ:      
+
+;;   basic block 4, loop depth 0
+;;    pred:       2
+  n_20 = 10;
+  i_21 = 0;
+  goto <bb 8>; [INV]
+;;    succ:       8
+
+;;   basic block 5, loop depth 1
+;;    pred:       8
+  _2 = (long unsigned int) i_11;
+  _3 = _2 * 4;
+  _4 = arr_16(D) + _3;
+  _5 = *_4;
+  if (i_11 == _5)
+    goto <bb 7>; [INV]
+  else
+    goto <bb 6>; [INV]
+;;    succ:       7
+;;                6
+
+;;   basic block 6, loop depth 1
+;;    pred:       5
+  __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 105, "ecall_array_isary", "arr[i] == i");
+;;    succ:       7
+
+;;   basic block 7, loop depth 1
+;;    pred:       5
+;;                6
+  _6 = n_20 + -1;
+  _7 = _6 - i_11;
+  tmp = _7;
+  _8 = (long unsigned int) i_11;
+  _9 = _8 * 4;
+  _10 = arr_16(D) + _9;
+  memcpy_verw (_10, &tmp, 4);
+  tmp ={v} {CLOBBER(eos)};
+  i_26 = i_11 + 1;
+;;    succ:       8
+
+;;   basic block 8, loop depth 1
+;;    pred:       4
+;;                7
+  # i_11 = PHI <i_21(4), i_26(7)>
+  if (i_11 < n_20)
+    goto <bb 5>; [INV]
+  else
+    goto <bb 9>; [INV]
+;;    succ:       5
+;;                9
+
+;;   basic block 9, loop depth 0
+;;    pred:       8
+  return;
+;;    succ:       EXIT
+
+}
+
+
+
+Partition map 
+
+Partition 1 (_1 - 1 )
+Partition 2 (_2 - 2 )
+Partition 3 (_3 - 3 )
+Partition 4 (_4 - 4 )
+Partition 5 (_5 - 5 )
+Partition 6 (_6 - 6 )
+Partition 7 (_7 - 7 )
+Partition 8 (_8 - 8 )
+Partition 9 (_9 - 9 )
+Partition 10 (_10 - 10 )
+Partition 11 (i_11 - 11 )
+Partition 16 (arr_16(D) - 16 )
+Partition 18 (_18 - 18 )
+Partition 19 (retval.1_19 - 19 )
+Partition 20 (n_20 - 20 )
+Partition 21 (i_21 - 21 )
+Partition 26 (i_26 - 26 )
+
+
+Coalescible Partition map 
+
+Partition 0, base 0 (_1 - 1 18 )
+Partition 1, base 1 (i_11 - 11 21 26 )
+Partition 2, base 2 (arr_16(D) - 16 )
+
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (i_11 - 11 )
+Partition 2 (arr_16(D) - 16 )
+Partition 3 (_18 - 18 )
+Partition 4 (i_21 - 21 )
+Partition 5 (i_26 - 26 )
+
+
+Conflict graph:
+
+After sorting:
+Sorted Coalesce list:
+(2147483646, 0) i_11 <-> i_21
+(2147483646, 0) i_11 <-> i_26
+(10000, 0) _1 <-> _18
+
+Partition map 
+
+Partition 0 (_1 - 1 )
+Partition 1 (i_11 - 11 )
+Partition 2 (arr_16(D) - 16 )
+Partition 3 (_18 - 18 )
+Partition 4 (i_21 - 21 )
+Partition 5 (i_26 - 26 )
+
+Coalesce list: (11)i_11 & (21)i_21 [map: 1, 4] : Success -> 1
+Coalesce list: (11)i_11 & (26)i_26 [map: 1, 5] : Success -> 1
+Coalesce list: (1)_1 & (18)_18 [map: 0, 3] : Success -> 0
+After Coalescing:
+
+Partition map 
+
+Partition 0 (_1 - 1 18 )
+Partition 1 (_2 - 2 )
+Partition 2 (_3 - 3 )
+Partition 3 (_4 - 4 )
+Partition 4 (_5 - 5 )
+Partition 5 (_6 - 6 )
+Partition 6 (_7 - 7 )
+Partition 7 (_8 - 8 )
+Partition 8 (_9 - 9 )
+Partition 9 (_10 - 10 )
+Partition 10 (i_11 - 11 21 26 )
+Partition 11 (arr_16(D) - 16 )
+Partition 12 (retval.1_19 - 19 )
+Partition 13 (n_20 - 20 )
+
+Partition 1: size 4 align 4
+	n_20
+Partition 0: size 4 align 4
+	i_11
+Partition 2: size 4 align 4
+	tmp
+
+;; Generating RTL for gimple basic block 2
+
+;; _18 = sgx_is_outside_enclave (arr_16(D), 40);
+
+(insn 6 5 7 (set (reg:DI 109)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+
+(insn 7 6 8 (set (reg:DI 4 si)
+        (const_int 40 [0x28])) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+
+(insn 8 7 9 (set (reg:DI 5 di)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+
+(call_insn 9 8 10 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sgx_is_outside_enclave") [flags 0x41]  <function_decl 0x7caf427c8300 sgx_is_outside_enclave>) [0 sgx_is_outside_enclave S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+(insn 10 9 0 (set (reg:SI 98 [ _1 ])
+        (reg:SI 0 ax)) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+
+;; _1 = _18;
+
+(nil)
+
+;; retval.1_19 = _1 != 1;
+
+(insn 11 10 12 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 98 [ _1 ])
+            (const_int 1 [0x1]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:54 discrim 1 -1
+     (nil))
+
+(insn 12 11 0 (set (reg:QI 108 [ retval.1_19 ])
+        (ne:QI (reg:CCZ 17 flags)
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:54 discrim 1 -1
+     (nil))
+
+;; if (retval.1_19 != 0)
+
+(insn 13 12 14 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:QI 108 [ retval.1_19 ])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:5 discrim 1 -1
+     (nil))
+
+(jump_insn 14 13 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":100:5 discrim 1 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 3
+
+;; abort ();
+
+(call_insn 16 15 17 (call (mem:QI (symbol_ref:DI ("abort") [flags 0x41]  <function_decl 0x7caf4272a500 abort>) [0 __builtin_abort S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":101:14 -1
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (nil)))
+    (nil))
+
+(barrier 17 16 0)
+
+;; Generating RTL for gimple basic block 4
+
+;; 
+
+(code_label 18 17 19 19 (nil) [0 uses])
+
+(note 19 18 0 NOTE_INSN_BASIC_BLOCK)
+
+;; n_20 = 10;
+
+(insn 20 19 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32])
+        (const_int 10 [0xa])) "Enclave/Edger8rSyntax/Arrays.cpp":103:9 -1
+     (nil))
+
+;; i_21 = 0;
+
+(insn 21 20 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":104:14 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 5
+
+;; _2 = (long unsigned int) i_11;
+
+(insn 25 24 26 (set (reg:SI 110)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+
+(insn 26 25 0 (set (reg:DI 99 [ _2 ])
+        (sign_extend:DI (reg:SI 110))) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+
+;; _3 = _2 * 4;
+
+(insn 27 26 0 (parallel [
+            (set (reg:DI 100 [ _3 ])
+                (ashift:DI (reg:DI 99 [ _2 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+
+;; _4 = arr_16(D) + _3;
+
+(insn 28 27 29 (set (reg/f:DI 111)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+
+(insn 29 28 0 (parallel [
+            (set (reg/f:DI 101 [ _4 ])
+                (plus:DI (reg:DI 100 [ _3 ])
+                    (reg/f:DI 111)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 100 [ _3 ]))
+        (nil)))
+
+;; _5 = *_4;
+
+(insn 30 29 0 (set (reg:SI 102 [ _5 ])
+        (mem:SI (reg/f:DI 101 [ _4 ]) [1 *_4+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+
+;; if (i_11 == _5)
+
+(insn 31 30 32 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+            (reg:SI 102 [ _5 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+
+(jump_insn 32 31 0 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 0)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 6
+
+;; __assert ("Enclave/Edger8rSyntax/Arrays.cpp", 105, "ecall_array_isary", "arr[i] == i");
+
+(insn 34 33 35 (set (reg:DI 112)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+
+(insn 35 34 36 (set (reg:DI 2 cx)
+        (reg:DI 112)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+
+(insn 36 35 37 (set (reg:DI 113)
+        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7caf42445360 *.LC7>)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+
+(insn 37 36 38 (set (reg:DI 1 dx)
+        (reg:DI 113)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7caf42445360 *.LC7>)
+        (nil)))
+
+(insn 38 37 39 (set (reg:SI 4 si)
+        (const_int 105 [0x69])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+
+(insn 39 38 40 (set (reg:DI 114)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+
+(insn 40 39 41 (set (reg:DI 5 di)
+        (reg:DI 114)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+
+(call_insn 41 40 0 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+
+;; Generating RTL for gimple basic block 7
+
+;; 
+
+(code_label 42 41 43 21 (nil) [0 uses])
+
+(note 43 42 0 NOTE_INSN_BASIC_BLOCK)
+
+;; _6 = n_20 + -1;
+
+(insn 44 43 45 (set (reg:SI 115)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":110:14 -1
+     (nil))
+
+(insn 45 44 0 (parallel [
+            (set (reg:SI 103 [ _6 ])
+                (plus:SI (reg:SI 115)
+                    (const_int -1 [0xffffffffffffffff])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":110:14 -1
+     (expr_list:REG_EQUAL (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32])
+            (const_int -1 [0xffffffffffffffff]))
+        (nil)))
+
+;; _7 = _6 - i_11;
+
+(insn 46 45 0 (parallel [
+            (set (reg:SI 104 [ _7 ])
+                (minus:SI (reg:SI 103 [ _6 ])
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":110:17 -1
+     (nil))
+
+;; tmp = _7;
+
+(insn 47 46 0 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [1 tmp+0 S4 A32])
+        (reg:SI 104 [ _7 ])) "Enclave/Edger8rSyntax/Arrays.cpp":110:6 -1
+     (nil))
+
+;; _8 = (long unsigned int) i_11;
+
+(insn 48 47 49 (set (reg:SI 116)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":111:19 -1
+     (nil))
+
+(insn 49 48 0 (set (reg:DI 105 [ _8 ])
+        (sign_extend:DI (reg:SI 116))) "Enclave/Edger8rSyntax/Arrays.cpp":111:19 -1
+     (nil))
+
+;; _9 = _8 * 4;
+
+(insn 50 49 0 (parallel [
+            (set (reg:DI 106 [ _9 ])
+                (ashift:DI (reg:DI 105 [ _8 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":111:20 -1
+     (nil))
+
+;; _10 = arr_16(D) + _9;
+
+(insn 51 50 52 (set (reg/f:DI 117)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":111:14 -1
+     (nil))
+
+(insn 52 51 0 (parallel [
+            (set (reg/f:DI 107 [ _10 ])
+                (plus:DI (reg:DI 106 [ _9 ])
+                    (reg/f:DI 117)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":111:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 106 [ _9 ]))
+        (nil)))
+
+;; memcpy_verw (_10, &tmp, 4);
+
+(insn 53 52 54 (parallel [
+            (set (reg:DI 118)
+                (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -12 [0xfffffffffffffff4])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+
+(insn 54 53 55 (set (reg:DI 1 dx)
+        (const_int 4 [0x4])) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+
+(insn 55 54 56 (set (reg:DI 4 si)
+        (reg:DI 118)) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+
+(insn 56 55 57 (set (reg:DI 5 di)
+        (reg/f:DI 107 [ _10 ])) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+
+(call_insn 57 56 0 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("memcpy_verw") [flags 0x41]  <function_decl 0x7caf4240ab00 memcpy_verw>) [0 memcpy_verw S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+
+;; tmp ={v} {CLOBBER(eos)};
+
+(nil)
+
+;; i_26 = i_11 + 1;
+
+(insn 58 57 0 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":104:5 discrim 2 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 8
+
+;; 
+
+(code_label 59 58 60 20 (nil) [0 uses])
+
+(note 60 59 0 NOTE_INSN_BASIC_BLOCK)
+
+;; if (i_11 < n_20)
+
+(insn 62 60 63 (set (reg:SI 119)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":104:23 discrim 1 -1
+     (nil))
+
+(insn 63 62 64 (set (reg:CCGC 17 flags)
+        (compare:CCGC (reg:SI 119)
+            (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32]))) "Enclave/Edger8rSyntax/Arrays.cpp":104:23 discrim 1 -1
+     (nil))
+
+(jump_insn 64 63 0 (set (pc)
+        (if_then_else (lt (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 61)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":104:23 discrim 1 -1
+     (nil))
+
+;; Generating RTL for gimple basic block 9
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Forwarding edge 9->10 to 11 failed.
+Merging block 11 into block 10...
+Merged blocks 10 and 11.
+Merged 10 and 11 without moving.
+
+
+try_optimize_cfg iteration 2
+
+fix_loop_structure: fixing up loops for function
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+;; basic block 2, loop depth 0, maybe hot
+;;  prev block 0, next block 4, flags: (NEW, REACHABLE, RTL)
+;;  pred:       ENTRY (FALLTHRU)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+        (reg:DI 5 di [ arr ])) "Enclave/Edger8rSyntax/Arrays.cpp":99:1 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg:DI 109)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+(insn 7 6 8 2 (set (reg:DI 4 si)
+        (const_int 40 [0x28])) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:DI 5 di)
+        (reg:DI 109)) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+(call_insn 9 8 10 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sgx_is_outside_enclave") [flags 0x41]  <function_decl 0x7caf427c8300 sgx_is_outside_enclave>) [0 sgx_is_outside_enclave S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 10 9 11 2 (set (reg:SI 98 [ _1 ])
+        (reg:SI 0 ax)) "Enclave/Edger8rSyntax/Arrays.cpp":100:31 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 98 [ _1 ])
+            (const_int 1 [0x1]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:54 discrim 1 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:QI 108 [ retval.1_19 ])
+        (ne:QI (reg:CCZ 17 flags)
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:54 discrim 1 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:QI 108 [ retval.1_19 ])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":100:5 discrim 1 -1
+     (nil))
+(jump_insn 14 13 15 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 18)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":100:5 discrim 1 -1
+     (nil)
+ -> 18)
+;;  succ:       4 (FALLTHRU)
+;;              5
+
+;; basic block 4, loop depth 0, maybe hot
+;;  prev block 2, next block 5, flags: (NEW, REACHABLE, RTL)
+;;  pred:       2 (FALLTHRU)
+(note 15 14 16 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(call_insn 16 15 17 4 (call (mem:QI (symbol_ref:DI ("abort") [flags 0x41]  <function_decl 0x7caf4272a500 abort>) [0 __builtin_abort S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":101:14 -1
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (nil)))
+    (nil))
+;;  succ:      
+
+(barrier 17 16 18)
+;; basic block 5, loop depth 0, maybe hot
+;;  prev block 4, next block 6, flags: (NEW, REACHABLE, RTL)
+;;  pred:       2
+(code_label 18 17 19 5 19 (nil) [1 uses])
+(note 19 18 20 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 20 19 21 5 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32])
+        (const_int 10 [0xa])) "Enclave/Edger8rSyntax/Arrays.cpp":103:9 -1
+     (nil))
+(insn 21 20 22 5 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":104:14 -1
+     (nil))
+(jump_insn 22 21 23 5 (set (pc)
+        (label_ref 59)) "Enclave/Edger8rSyntax/Arrays.cpp":104:5 -1
+     (nil)
+ -> 59)
+;;  succ:       9 Enclave/Edger8rSyntax/Arrays.cpp:104:5
+
+(barrier 23 22 61)
+;; basic block 6, loop depth 0, maybe hot
+;;  prev block 5, next block 7, flags: (NEW, REACHABLE, RTL)
+;;  pred:       9
+(code_label 61 23 24 6 22 (nil) [1 uses])
+(note 24 61 25 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 25 24 26 6 (set (reg:SI 110)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+(insn 26 25 27 6 (set (reg:DI 99 [ _2 ])
+        (sign_extend:DI (reg:SI 110))) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+(insn 27 26 28 6 (parallel [
+            (set (reg:DI 100 [ _3 ])
+                (ashift:DI (reg:DI 99 [ _2 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+(insn 28 27 29 6 (set (reg/f:DI 111)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+(insn 29 28 30 6 (parallel [
+            (set (reg/f:DI 101 [ _4 ])
+                (plus:DI (reg:DI 100 [ _3 ])
+                    (reg/f:DI 111)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 100 [ _3 ]))
+        (nil)))
+(insn 30 29 31 6 (set (reg:SI 102 [ _5 ])
+        (mem:SI (reg/f:DI 101 [ _4 ]) [1 *_4+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+(insn 31 30 32 6 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+            (reg:SI 102 [ _5 ]))) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil))
+(jump_insn 32 31 33 6 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 42)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 -1
+     (nil)
+ -> 42)
+;;  succ:       8
+;;              7 (FALLTHRU)
+
+;; basic block 7, loop depth 0, maybe hot
+;;  prev block 6, next block 8, flags: (NEW, REACHABLE, RTL)
+;;  pred:       6 (FALLTHRU)
+(note 33 32 34 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 34 33 35 7 (set (reg:DI 112)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+(insn 35 34 36 7 (set (reg:DI 2 cx)
+        (reg:DI 112)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7caf4241ee10 *.LC0>)
+        (nil)))
+(insn 36 35 37 7 (set (reg:DI 113)
+        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7caf42445360 *.LC7>)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+(insn 37 36 38 7 (set (reg:DI 1 dx)
+        (reg:DI 113)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7caf42445360 *.LC7>)
+        (nil)))
+(insn 38 37 39 7 (set (reg:SI 4 si)
+        (const_int 105 [0x69])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+(insn 39 38 40 7 (set (reg:DI 114)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil))
+(insn 40 39 41 7 (set (reg:DI 5 di)
+        (reg:DI 114)) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7caf4241ef30 *.LC2>)
+        (nil)))
+(call_insn 41 40 42 7 (call (mem:QI (symbol_ref:DI ("__assert") [flags 0x41]  <function_decl 0x7caf427c8900 __assert>) [0 __assert S1 A8])
+        (const_int 0 [0])) "Enclave/Edger8rSyntax/Arrays.cpp":105:9 discrim 1 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+;;  succ:       8 (FALLTHRU)
+
+;; basic block 8, loop depth 0, maybe hot
+;;  prev block 7, next block 9, flags: (NEW, REACHABLE, RTL)
+;;  pred:       6
+;;              7 (FALLTHRU)
+(code_label 42 41 43 8 21 (nil) [1 uses])
+(note 43 42 44 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(insn 44 43 45 8 (set (reg:SI 115)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32])) "Enclave/Edger8rSyntax/Arrays.cpp":110:14 -1
+     (nil))
+(insn 45 44 46 8 (parallel [
+            (set (reg:SI 103 [ _6 ])
+                (plus:SI (reg:SI 115)
+                    (const_int -1 [0xffffffffffffffff])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":110:14 -1
+     (expr_list:REG_EQUAL (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32])
+            (const_int -1 [0xffffffffffffffff]))
+        (nil)))
+(insn 46 45 47 8 (parallel [
+            (set (reg:SI 104 [ _7 ])
+                (minus:SI (reg:SI 103 [ _6 ])
+                    (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":110:17 -1
+     (nil))
+(insn 47 46 48 8 (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [1 tmp+0 S4 A32])
+        (reg:SI 104 [ _7 ])) "Enclave/Edger8rSyntax/Arrays.cpp":110:6 -1
+     (nil))
+(insn 48 47 49 8 (set (reg:SI 116)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":111:19 -1
+     (nil))
+(insn 49 48 50 8 (set (reg:DI 105 [ _8 ])
+        (sign_extend:DI (reg:SI 116))) "Enclave/Edger8rSyntax/Arrays.cpp":111:19 -1
+     (nil))
+(insn 50 49 51 8 (parallel [
+            (set (reg:DI 106 [ _9 ])
+                (ashift:DI (reg:DI 105 [ _8 ])
+                    (const_int 2 [0x2])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":111:20 -1
+     (nil))
+(insn 51 50 52 8 (set (reg/f:DI 117)
+        (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":111:14 -1
+     (nil))
+(insn 52 51 53 8 (parallel [
+            (set (reg/f:DI 107 [ _10 ])
+                (plus:DI (reg:DI 106 [ _9 ])
+                    (reg/f:DI 117)))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":111:14 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])) [2 arr+0 S8 A64])
+            (reg:DI 106 [ _9 ]))
+        (nil)))
+(insn 53 52 54 8 (parallel [
+            (set (reg:DI 118)
+                (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -12 [0xfffffffffffffff4])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+(insn 54 53 55 8 (set (reg:DI 1 dx)
+        (const_int 4 [0x4])) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+(insn 55 54 56 8 (set (reg:DI 4 si)
+        (reg:DI 118)) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+(insn 56 55 57 8 (set (reg:DI 5 di)
+        (reg/f:DI 107 [ _10 ])) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil))
+(call_insn 57 56 58 8 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("memcpy_verw") [flags 0x41]  <function_decl 0x7caf4240ab00 memcpy_verw>) [0 memcpy_verw S1 A8])
+            (const_int 0 [0]))) "Enclave/Edger8rSyntax/Arrays.cpp":111:13 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(insn 58 57 59 8 (parallel [
+            (set (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                        (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+                (plus:SI (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                            (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "Enclave/Edger8rSyntax/Arrays.cpp":104:5 discrim 2 -1
+     (nil))
+;;  succ:       9 (FALLTHRU,DFS_BACK)
+
+;; basic block 9, loop depth 0, maybe hot
+;;  prev block 8, next block 10, flags: (NEW, REACHABLE, RTL)
+;;  pred:       5 Enclave/Edger8rSyntax/Arrays.cpp:104:5
+;;              8 (FALLTHRU,DFS_BACK)
+(code_label 59 58 60 9 20 (nil) [1 uses])
+(note 60 59 62 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(insn 62 60 63 9 (set (reg:SI 119)
+        (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [1 i+0 S4 A64])) "Enclave/Edger8rSyntax/Arrays.cpp":104:23 discrim 1 -1
+     (nil))
+(insn 63 62 64 9 (set (reg:CCGC 17 flags)
+        (compare:CCGC (reg:SI 119)
+            (mem/c:SI (plus:DI (reg/f:DI 93 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [1 n+0 S4 A32]))) "Enclave/Edger8rSyntax/Arrays.cpp":104:23 discrim 1 -1
+     (nil))
+(jump_insn 64 63 65 9 (set (pc)
+        (if_then_else (lt (reg:CCGC 17 flags)
+                (const_int 0 [0]))
+            (label_ref 61)
+            (pc))) "Enclave/Edger8rSyntax/Arrays.cpp":104:23 discrim 1 -1
+     (nil)
+ -> 61)
+;;  succ:       6
+;;              10 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:113:1
+
+;; basic block 10, loop depth 0, maybe hot
+;;  prev block 9, next block 1, flags: (NEW, REACHABLE, RTL)
+;;  pred:       9 (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:113:1
+(note 65 64 0 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+;;  succ:       EXIT [always]  (FALLTHRU) Enclave/Edger8rSyntax/Arrays.cpp:113:1
+

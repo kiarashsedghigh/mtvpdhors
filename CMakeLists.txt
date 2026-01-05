@@ -6,7 +6,8 @@ set(CMAKE_C_STANDARD 23)
 
 
 
-add_compile_options(-DTIMEKEEPING -O3 -w -DOHBF)
+
+
 include_directories(src/ src/crypto src/utils)
 link_libraries(tomcrypt m ssl crypto xxhash)
 
@@ -51,10 +52,11 @@ add_executable(hors
 add_executable(mtvpdhors
         test/mtvpdhors_example.c
         src/bftvmhors.c src/bftvmhors.h
-        ${COMMON_SRCS}
         src/crypto/hash/xxhash/xxhash.c
         src/ohbf.c src/ohbf.h
         src/ohbf_primes.h
+        ${COMMON_SRCS}
+
 )
 
 
